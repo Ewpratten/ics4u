@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "notes"
+		},
+		{
+			"path": "projects/printf"
+		},
+		{
+			"path": "projects/arrayreview"
+		},
+		{
+			"path": "projects/splitint"
+		}
+	],
+	"settings": {}
+}
