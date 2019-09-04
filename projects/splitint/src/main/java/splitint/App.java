@@ -22,6 +22,10 @@ public class App {
             this.a = a;
             this.b = b;
         }
+
+        public void printContents() {
+            System.out.println("" + a + ", " + b);
+        }
     }
 
     public static void main(String[] args) {
@@ -38,6 +42,14 @@ public class App {
         // Split the number with mod
         Tuple mod_split = splitWithMod(n);
 
+        // Split the number with String.split()
+        Tuple split_split = splitWithSplit(n);
+
+        // Print each
+        str_split.printContents();
+        mod_split.printContents();
+        split_split.printContents();
+
     }
 
     /**
@@ -51,12 +63,33 @@ public class App {
         String stringy_int = Integer.toString(x);
 
         // Build and return a tuple with each index of the char array
-        return new Tuple(Integer.parseInt(Character.toString(stringy_int.charAt(0))), Integer.parseInt(Character.toString(stringy_int.charAt(1))));
+        return new Tuple(Integer.parseInt(Character.toString(stringy_int.charAt(0))),
+                Integer.parseInt(Character.toString(stringy_int.charAt(1))));
 
     }
 
+    /**
+     * Split an int with modulo
+     * 
+     * @param x 2 digit int
+     * @return Tuple with output
+     */
     private Tuple splitWithMod(int x) {
-        return new Tuple((int)(x / 10), x % 10);
+        return new Tuple((int) (x / 10), x % 10);
+    }
+
+    /**
+     * Split an int with String.split()
+     * 
+     * @param x 2 digit int
+     * @return Tuple with output
+     */
+    private Tuple splitWithSplit(int x) {
+        String num = String.valueOf(x);
+
+        String[] split_nums = num.split("(?<=.)");
+
+        return new Tuple(Integer.parseInt(split_nums[0]), Integer.parseInt(split_nums[1]));
     }
 
 }
