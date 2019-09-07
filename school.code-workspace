@@ -11,6 +11,12 @@
 		},
 		{
 			"path": "projects/splitint"
+		},
+		{
+			"path": "projects/objects"
+		},
+		{
+			"path": "projects/sortingprez"
 		}
 	],
 	"settings": {}
