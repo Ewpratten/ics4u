@@ -9,20 +9,30 @@
  */
 package sortingprez;
 
+import java.util.Random;
+
 public class App {
     public static void main(String[] args) {
         new App();
     }
 
+    Random rand = new Random();
+
+
     private App() {
         // Create and print an array to sort
-        int[] test = { 1, 2, 5, 6, 3, 12, 6, 7, 32, 1235, 2, 7, 4 };
-        dump(test);
+        int arrlen = 100000000;
+        int[] test = new int[arrlen];
+
+        for (int i = 0; i < arrlen; i++) {
+            test[i] = rand.nextInt(1000000);
+        }
+        // dump(test);
 
         // Sort test
         quicksort(test);
 
-        dump(test);
+        // dump(test);
     }
 
     /**
@@ -115,7 +125,7 @@ public class App {
             }
 
             // Use a bitwise XOR to swap arr[low_index] and arr[high_index] in-pace
-            arr[low_index] = arr[low_index] ^ arr[high_index]; // Setto the xor of arr[low_index] and arr[high_index]
+            arr[low_index] = arr[low_index] ^ arr[high_index]; // Set the xor of arr[low_index] and arr[high_index]
             arr[high_index] = arr[low_index] ^ arr[high_index]; // Extract the original arr[low_index] value
             arr[low_index] = arr[low_index] ^ arr[high_index]; // Extract the original arr[high_index] value
 
@@ -148,6 +158,11 @@ public class App {
         }
     }
 
+    /**
+     * PHP-style variable dump for an int array
+     * 
+     * @param arr int array to dump
+     */
     private void dump(int[] arr) {
         for (int x : arr) {
             System.out.print("" + x + " ");
