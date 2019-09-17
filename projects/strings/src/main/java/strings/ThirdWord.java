@@ -6,6 +6,10 @@ public class ThirdWord implements Runnable {
 
     Scanner stdin = new Scanner(System.in);
 
+    public static void main(String[] args) {
+        (new ThirdWord()).run();
+    }
+
     @Override
     public void run() {
 

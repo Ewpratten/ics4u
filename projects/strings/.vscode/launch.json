@@ -1,0 +1,25 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Triplets",
+            "request": "launch",
+            "mainClass": "strings.Triplets",
+            "projectName": "strings"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - VowelCount",
+            "request": "launch",
+            "mainClass": "strings.VowelCount",
+            "projectName": "strings"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - App",
+            "request": "launch",
+            "mainClass": "strings.App",
+            "projectName": "strings"
+        }
+    ]
+}
