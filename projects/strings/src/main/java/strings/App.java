@@ -31,5 +31,9 @@ public class App {
         System.out.println("--- Starting Triplets ---\n");
         (new Triplets("Hello felloww humkdsafsssans, I am a cow. Mooo.")).run();
 
+        // Run RandomWord
+        System.out.println("--- Starting RandomWord ---\n");
+        (new RandomWord()).run();
+
     }
 }

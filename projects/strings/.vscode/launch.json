@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - RandomWord",
+            "request": "launch",
+            "mainClass": "strings.RandomWord",
+            "projectName": "strings"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - Triplets",
             "request": "launch",
             "mainClass": "strings.Triplets",
