@@ -15,12 +15,12 @@ public class Triplets implements Runnable {
         this.data = data;
     }
 
-    private void handleWord(String word) {
+    private void handleWord(char[] word) {
         // Temp vals for parsing
         char current_char = '`';
         int char_count = 1;
 
-        for (char x : word.toCharArray()) {
+        for (char x : word) {
             // Incr counter if x is the same as the last char
             if (x == current_char) {
                 char_count++;
@@ -33,7 +33,7 @@ public class Triplets implements Runnable {
 
             // Print word and return if char_count >= 3
             if (char_count >= 3) {
-                System.out.println("-> " + word);
+                System.out.println("-> " + String.valueOf(word));
                 return;
             }
         }
@@ -48,7 +48,7 @@ public class Triplets implements Runnable {
         for (String word : data.strip().split("\\s+")) {
 
             // Handle the word
-            handleWord(word);
+            handleWord(word.toCharArray());
         }
 
     }

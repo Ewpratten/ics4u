@@ -1,3 +1,15 @@
+/**
+ * ICS3U - RandomWord
+ * 
+ * Task:
+ * - Make random 6 letter words with exactly one or two vowels in them. The vowels should be located at random locations. (eg. "yupsqt", "ihlkpa")
+ * 
+ * Execution:
+ *  - Randomly select if the word should have 1 or 2 vowels
+ *  - Fill a len(6) char array with chars following there rules:
+ *     - Have a random chance of setting the current index to a vowel (this gets closer to 100% as the remaining chars get closer to 0)
+ *     - If the current char is not decided to be a vowel (or the max number of vowels was reached) choose a random non-vowel
+ */
 package strings;
 
 import java.util.Random;

@@ -1,3 +1,9 @@
+/**
+ * ICS3U - char frequency
+ * By: Evan Pratten
+ * 
+ *  - Open a book, and count the letters
+ */
 package book;
 
 import java.io.IOException;
@@ -17,6 +23,7 @@ public class App {
 
         String book_file = "";
 
+        // Load the file (or exit)
         try {
             book_file = readFile("pg32613.txt");
         } catch (IOException e) {
@@ -25,7 +32,6 @@ public class App {
 
         computeFrequency(book_file);
 
-        // System.out.println(book_file);
         dumpMap();
 
     }

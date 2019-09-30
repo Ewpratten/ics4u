@@ -23,6 +23,9 @@
 		},
 		{
 			"path": "projects/strings"
+		},
+		{
+			"path": "projects/studentID"
 		}
 	],
 	"settings": {}
