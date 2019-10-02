@@ -29,6 +29,9 @@
 		},
 		{
 			"path": "projects/arrayquiz"
+		},
+		{
+			"path": "projects/starfield"
 		}
 	],
 	"settings": {}
