@@ -1,86 +1,114 @@
+/**
+ * ISC4U - Starfield
+ * By: Evan Pratten
+ */
 package starfield;
 
 import java.awt.Point;
 import java.awt.Graphics2D;
 import java.awt.Color;
 
+/**
+ * Drawable star
+ * 
+ * This works by finding a "target" along the window perimeter, and moving the
+ * star's location towards it's target over time. Over time, the star will speed
+ * up. The class also keeps track of the original values provided, so it can
+ * reset itself instead of requiring a septate loop to recreate dead star
+ * objects.
+ */
 public class Star {
 
-    Point origin;
-    Point loc;
-    Point target;
-    int angle;
-    int size = 10;
+    // Star location & target location
+    private Point origin;
+    private Point loc;
+    private Point target;
 
-    public Star(int speed, Point loc, Point target) {
-        this.loc = loc;
-        this.origin = loc;
+    // Base star size
+    private double size = 2;
 
-        // System.out.println(angle);
+    // Star speed & original speed
+    private int speed, orig_speed;
 
-        // // Calculate target position
-        // int adj = (int) (Math.cos(angle) * aim);
-        // int opp = (int) (Math.sin(angle) * aim);
+    // Canvas size
+    private int w, h;
 
-        // System.out.println(""+adj+", "+ opp+", "+Math.cos(angle) * aim);
+    /**
+     * Create a drawable star
+     * 
+     * @param speed Base movement speed (smaller numbers are faster)
+     * @param loc   Starting location for star
+     * @param h     Canvas height (used in target generation)
+     * @param w     Canvas width (used in target generation)
+     */
+    public Star(int speed, Point loc, int h, int w) {
+        this.loc = new Point(loc);
+        this.origin = new Point(loc);
 
-        // this.target = new Point(adj, opp);
-        // this.angle = angle;
-        this.target = target;
+        this.target = Utils.randPerimeterPoint(w, h);
+
+        this.w = w;
+        this.h = h;
+
+        this.speed = speed;
+        this.orig_speed = speed;
     }
 
+    /**
+     * Called by graphics loop to handle movement and re-creation
+     */
     void update() {
 
-        // Check if loc is near target
+        // Reset the star when it reaches it's target
         if (Utils.near(loc, target)) {
-            // Reset the star
             reset();
-            System.out.println("Respawn");
             return;
         }
 
-        // Determine distance
-        double dist = Math.sqrt(Math.pow(target.x - loc.x, 2) + Math.pow(target.y - loc.y, 2));
+        // Determine speed (gradually gets faster)
+        // Make sure a div by 0 error does not occur
+        speed = Math.max(speed - 2, 1);
 
-        // Determine deltas
-        double deltaX = target.x - loc.x;
-        double deltaY = target.y - loc.y;
-        double direction = Math.atan(deltaY / deltaX);
+        // Slowly increase star size
+        size += 0.25;
 
-        // Determine speed
-        // Currently hard-coded
-        int speed = 5;
+        // Calculate movement deltas
+        double deltaX = (target.x - loc.x) / speed;
+        double deltaY = (target.y - loc.y) / speed;
 
-        // Determine modifier
-        int mod = 1;
-        if (target.x < loc.x || target.y < loc.y) {
-            mod = -1;
-        }
-
-        // Move location point
-        loc.x += speed * Math.cos(direction) * mod;
-        loc.y += speed * Math.sin(direction) * mod;
+        // Modify star position based on deltas
+        loc.x += deltaX;
+        loc.y += deltaY;
     }
 
+    /**
+     * Reset the star to it's starting position / values
+     */
     private void reset() {
-        loc.x = origin.x;
-        loc.y = origin.y;
+        // Reset starting location
+        loc = new Point(origin);
 
-        System.out.println("");
+        // Choose a new target
+        target = Utils.randPerimeterPoint(w, h);
 
-        System.out.println(loc);
+        // Reset speed
+        speed = orig_speed;
+
+        // Reset size
+        size = 2;
+
     }
 
-    Point getPos() {
-        return loc;
-    }
-
+    /**
+     * Draw the star on a canvas
+     * 
+     * @param g Graphics2D canvas
+     */
     void render(Graphics2D g) {
-
+        // Set draw colour
         g.setColor(Color.WHITE);
-        g.fillOval((int) loc.x, (int) loc.y, (int) size, (int) size);
 
-        g.setColor(Color.BLUE);
-        g.drawLine((int) loc.x, (int) loc.y, (int) target.x, (int) target.y);
+        // Fill an oval
+        g.fillOval((int) loc.x, (int) loc.y, (int) size, (int) size);
     }
 }

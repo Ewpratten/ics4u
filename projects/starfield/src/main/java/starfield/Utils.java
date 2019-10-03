@@ -1,49 +1,57 @@
+/**
+ * ISC4U - Starfield
+ * By: Evan Pratten
+ */
 package starfield;
 
 import java.awt.Point;
 import java.util.Random;
 import java.awt.geom.Point2D;
 
+/**
+ * A collection of standalone utilities
+ */
 public class Utils {
 
-    // Random number gen
+    // Random number generator
     static Random rand = new Random();
 
     /**
      * Pick a random point around the perimeter of a box (starting at 0,0)
      * 
-     * @param width Box width
+     * @param width  Box width
      * @param height Box height
      * @return Generated point
      */
     public static Point randPerimeterPoint(int width, int height) {
 
-        // Determine the perimeter of the box
-        int perimeter = 2 * width + 2 * height;
+        // Choose a random side of the box
+        int side = rand.nextInt(4);
+        Point output = null;
 
-        // Pick a random point along the perimeter
-        int rand_sel = rand.nextInt(perimeter);
+        // Get random point for side
+        switch (side) {
 
-        // Check if the point needs to be flipped
-        boolean ovf = rand_sel > (perimeter / 2);
+        // Left wall
+        case 0:
+            output = new Point(0, rand.nextInt(height));
+            break;
 
-        // Re-fold the perimeter to a box
-        Point output = new Point();
+        // Bottom wall
+        case 1:
+            output = new Point(rand.nextInt(width), height);
+            break;
 
-        // Check if point is along the side
-        if (rand_sel % (perimeter / 2) <= height) {
-            output.x = 0;
-            output.y = rand_sel;
-        } else {
-            output.x = rand_sel - height;
-            output.y = height;
+        // Left wall
+        case 2:
+            output = new Point(width, rand.nextInt(height));
+            break;
+
+        // Top wall
+        case 3:
+            output = new Point(rand.nextInt(width), 0);
+            break;
         }
-
-        // Handle flipping
-        // if (ovf) {
-        //     output.x = width - output.x;
-        //     output.y = height - output.y;
-        // }
 
         return output;
     }
@@ -51,12 +59,11 @@ public class Utils {
     /**
      * Check if two points are near eachother
      * 
-     * @param a First point 
+     * @param a First point
      * @param b Second point
      * @return Are they near?
      */
     public static boolean near(Point a, Point b) {
-        return Point2D.distance(a.x, a.y, b.x, b.y) < 10;
-        // return Math.abs(a.x - b.x) < 5 || Math.abs(a.y - b.y) < 5;
+        return Point2D.distance(a.x, a.y, b.x, b.y) < 5;
     }
 }

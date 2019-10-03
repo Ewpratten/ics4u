@@ -1,10 +1,13 @@
+/**
+ * ISC4U - Starfield
+ * By: Evan Pratten
+ */
 package starfield;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -21,18 +24,20 @@ public class App {
         new App(35);
     }
 
+    // Program configuration data
     public class Configuration {
-        static final int star_count = 50;
+
+        // Star settings
+        static final int star_count = 400;
+        static final int speed_deviation = 40;
+        static final int jiggle_factor = 5;
+
+        // Window settings
+        static final int win_width = 800;
+        static final int win_height = 600;
     }
 
-    // window sizes
-    static int winWidth = 800;
-    static int winHeight = 600;
-
     JPanel mainPanel; // the main JPanel
-
-    // booleans
-    boolean toggle = true;
 
     // timer variables
     Timer timer; // timer object
@@ -46,6 +51,11 @@ public class App {
     // Random number generator
     Random rand = new Random();
 
+    /**
+     * Create a new starfield
+     * 
+     * @param refresh_rate Window refresh rate
+     */
     App(int refresh_rate) {
 
         // Configure timer
@@ -64,15 +74,10 @@ public class App {
 
         // Window setup
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        // Maximize window
-        // Toolkit tk = Toolkit.getDefaultToolkit();
-        // winWidth = ((int) tk.getScreenSize().getWidth());
-        // winHeight = ((int) tk.getScreenSize().getHeight());
-        window.setSize(winWidth - 50, winHeight - 100);
+        window.setSize(Configuration.win_width, Configuration.win_height);
 
         // Determine centre location
-        m_screenCentre = new Point(winWidth / 2, winHeight / 2);
+        m_screenCentre = new Point(Configuration.win_width / 2, Configuration.win_height / 2);
 
         // Create some stars
         createStars(Configuration.star_count);
@@ -90,42 +95,39 @@ public class App {
      */
     void createStars(int num) {
         for (int i = 0; i < num; i++) {
-            // Determine a random angle for the star to target
-            // int angle = rand.nextInt(720) - 360;
 
-            // // Create a new star
-            // starCollection.add(new Star(angle, 50, new Point(m_screenCentre.x, m_screenCentre.y), 2000));
-            Point target = Utils.randPerimeterPoint(winWidth, winHeight);
-            System.out.println(target);
-            starCollection.add(new Star(50, new Point(m_screenCentre.x, m_screenCentre.y),
-                    target));
+            // Choose a random speed modifier (this keeps some randomness)
+            int speed_mod = rand.nextInt(Configuration.speed_deviation);
 
-            System.out.println("Star created");
+            // Choose some error for x and y starting points to cause randomness
+            int x_offset = rand.nextInt(Configuration.jiggle_factor) - (Configuration.jiggle_factor / 2);
+            int y_offset = rand.nextInt(Configuration.jiggle_factor) - (Configuration.jiggle_factor / 2);
+
+            // Create a new star
+            starCollection.add(new Star(50 + speed_mod, new Point(m_screenCentre.x + x_offset, m_screenCentre.y + y_offset),
+                    Configuration.win_height, Configuration.win_width));
+
         }
     }
-    
+
     private class GrPanel extends JPanel {
+        private static final long serialVersionUID = 8224188443773486242L;
 
         /**
-         * Component display loop
+         * Graphics loop. Renders each star, and handles window
          */
         @Override
         public void paintComponent(Graphics g) {
-            super.paintComponent(g); // this draws the background
+
+            // Render the background
+            super.paintComponent(g);
 
             // Graphics2D allows smoother graphics
             Graphics2D g2 = (Graphics2D) g;
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-            // Set star colour
-            g2.setColor(Color.YELLOW);
-
-            // Draw each star
+            // Render each star
             for (Star s : starCollection) {
-
-                // double size = Math.abs(sx[i]-cx)/15.0 + Math.abs(sy[i]-cy)/15.0;
-
-                // Render the star
                 s.render(g2);
             }
 
