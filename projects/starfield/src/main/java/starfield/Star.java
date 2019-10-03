@@ -5,6 +5,9 @@
 package starfield;
 
 import java.awt.Point;
+
+import starfield.App.Configuration;
+
 import java.awt.Graphics2D;
 import java.awt.Color;
 
@@ -25,7 +28,7 @@ public class Star {
     private Point target;
 
     // Base star size
-    private double size = 2;
+    private double size = 1;
 
     // Star speed & original speed
     private int speed, orig_speed;
@@ -45,7 +48,7 @@ public class Star {
         this.loc = new Point(loc);
         this.origin = new Point(loc);
 
-        this.target = Utils.randPerimeterPoint(w, h);
+        this.target = Utils.randPerimeterPoint(w, h, Configuration.curviness);
 
         this.w = w;
         this.h = h;
@@ -70,7 +73,7 @@ public class Star {
         speed = Math.max(speed - 2, 1);
 
         // Slowly increase star size
-        size += 0.25;
+        size += 0.05;
 
         // Calculate movement deltas
         double deltaX = (target.x - loc.x) / speed;
@@ -89,7 +92,7 @@ public class Star {
         loc = new Point(origin);
 
         // Choose a new target
-        target = Utils.randPerimeterPoint(w, h);
+        target = Utils.randPerimeterPoint(w, h, Configuration.curviness);
 
         // Reset speed
         speed = orig_speed;
@@ -110,5 +113,7 @@ public class Star {
 
         // Fill an oval
         g.fillOval((int) loc.x, (int) loc.y, (int) size, (int) size);
+
+        // g.drawLine((int) loc.x, (int) loc.y, (int) target.x, (int) target.y);
     }
 }

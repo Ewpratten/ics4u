@@ -16,6 +16,10 @@ public class Utils {
     // Random number generator
     static Random rand = new Random();
 
+    private static double curve(int x, int max, int curve) {
+        return (curve * Math.sin((x / (double) max) * Math.PI));
+    }
+
     /**
      * Pick a random point around the perimeter of a box (starting at 0,0)
      * 
@@ -23,7 +27,7 @@ public class Utils {
      * @param height Box height
      * @return Generated point
      */
-    public static Point randPerimeterPoint(int width, int height) {
+    public static Point randPerimeterPoint(int width, int height, int curviness) {
 
         // Choose a random side of the box
         int side = rand.nextInt(4);
@@ -34,22 +38,27 @@ public class Utils {
 
         // Left wall
         case 0:
-            output = new Point(0, rand.nextInt(height));
+            int selection = rand.nextInt(height);
+
+            output = new Point((int) (0 - curve(selection, height, curviness)), selection);
             break;
 
         // Bottom wall
         case 1:
-            output = new Point(rand.nextInt(width), height);
+            selection = rand.nextInt(width);
+            output = new Point(selection, (int) (height + curve(selection, width, curviness)));
             break;
 
         // Left wall
         case 2:
-            output = new Point(width, rand.nextInt(height));
+            selection = rand.nextInt(height);
+            output = new Point((int) (width + curve(selection, height, curviness)), selection);
             break;
 
         // Top wall
         case 3:
-            output = new Point(rand.nextInt(width), 0);
+            selection = rand.nextInt(width);
+            output = new Point(selection, (int) (0 - curve(selection, width, curviness)));
             break;
         }
 

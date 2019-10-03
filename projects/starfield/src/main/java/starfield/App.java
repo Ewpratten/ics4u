@@ -28,13 +28,15 @@ public class App {
     public class Configuration {
 
         // Star settings
-        static final int star_count = 400;
-        static final int speed_deviation = 40;
-        static final int jiggle_factor = 5;
+        static final int star_count = 200;
+        static final int speed_deviation = 80;
+        static final int jiggle_factor = 50;
+        static final int curviness = 360;
 
         // Window settings
-        static final int win_width = 800;
-        static final int win_height = 600;
+        static final int win_width = 1080;
+        static final int win_height = 720;
+
     }
 
     JPanel mainPanel; // the main JPanel
@@ -104,8 +106,9 @@ public class App {
             int y_offset = rand.nextInt(Configuration.jiggle_factor) - (Configuration.jiggle_factor / 2);
 
             // Create a new star
-            starCollection.add(new Star(50 + speed_mod, new Point(m_screenCentre.x + x_offset, m_screenCentre.y + y_offset),
-                    Configuration.win_height, Configuration.win_width));
+            starCollection
+                    .add(new Star(50 + speed_mod, new Point(m_screenCentre.x + x_offset, m_screenCentre.y + y_offset),
+                            Configuration.win_height, Configuration.win_width));
 
         }
     }
