@@ -28,10 +28,10 @@ public class App {
     public class Configuration {
 
         // Star settings
-        static final int star_count = 200;
+        static final int star_count = 800;
         static final int speed_deviation = 80;
         static final int jiggle_factor = 50;
-        static final int curviness = 360;
+        static final int curviness = 180;
 
         // Window settings
         static final int win_width = 1080;

@@ -32,6 +32,9 @@
 		},
 		{
 			"path": "projects/starfield"
+		},
+		{
+			"path": "projects/binaryhex"
 		}
 	],
 	"settings": {}

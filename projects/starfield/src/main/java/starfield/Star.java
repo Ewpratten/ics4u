@@ -28,7 +28,7 @@ public class Star {
     private Point target;
 
     // Base star size
-    private double size = 1;
+    private double size = 0;
 
     // Star speed & original speed
     private int speed, orig_speed;
@@ -70,7 +70,7 @@ public class Star {
 
         // Determine speed (gradually gets faster)
         // Make sure a div by 0 error does not occur
-        speed = Math.max(speed - 2, 1);
+        speed = Math.max(speed - 3, 1);
 
         // Slowly increase star size
         size += 0.05;
