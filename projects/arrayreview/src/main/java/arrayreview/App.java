@@ -36,6 +36,7 @@ public class App {
         rand_arr_striped.forEach((x) -> System.out.print("" + x + " "));
 
     }
+   
 
     /**
      * Build an Integer array of specific size
