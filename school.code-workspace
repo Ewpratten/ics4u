@@ -35,6 +35,9 @@
 		},
 		{
 			"path": "projects/binaryhex"
+		},
+		{
+			"path": "projects/borderofstars"
 		}
 	],
 	"settings": {}
