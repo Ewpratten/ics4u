@@ -13,7 +13,9 @@ package ca.retrylife.ics4u.fileIO;
 import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import ca.retrylife.libics.files.FileUtils;
 import ca.retrylife.libics.files.STDIO;
@@ -24,11 +26,14 @@ public class App extends Assignment {
     private final String folderName = "fileIO";
     private final String consoleLogFileName = "consolelog.txt";
     private final String wordFile = "words.txt";
+    private final String remoteURL = "https://retrylife.ca";
+    private final String remoteWord = "Canada";
 
     /* Vars */
     private BufferedReader stdin;
     private FileWriter consoleFile; // This is a wrapper for PrintWriter.. Don't be mad plz
     private String consoleFilePath;
+    private URL remoteFile;
 
     public static void main(String[] args) {
         (new App()).run();
@@ -68,6 +73,7 @@ public class App extends Assignment {
         // Run each part in it's own scope
         part1();
         part2();
+        part3();
     }
 
     /* Read user input to file */
@@ -143,6 +149,62 @@ public class App extends Assignment {
         // Print each line
         for (String line : lines) {
             System.out.printf("%s%n", line);
+        }
+    }
+
+    private void part3() {
+        System.out.printf("%nReading from remote: %s%n", remoteURL);
+
+        // Try to load URL for remote page
+        try {
+            // Create the URL
+            remoteFile = new URL(remoteURL);
+        } catch (MalformedURLException e) {
+            System.out.printf("Unable to retrieve remote resource due to: %n%s%n", e);
+            return;
+        }
+
+        // Load resource to buffer
+        BufferedReader file;
+        try {
+            file = new BufferedReader(new InputStreamReader(remoteFile.openStream()));
+        } catch (IOException e) {
+            System.out.printf("Unable to buffer remote resource due to: %n%s%n", e);
+            return;
+        }
+
+        // Parse buffer for the word "Canada"
+        String line;
+        while ((line = readLineOrNull(file)) != null) {
+
+            // Split line into words
+            String[] words = line.split(" ");
+
+            // Iter each word and check for match
+            for (String word : words) {
+                if (word.equals(remoteWord)) {
+                    System.out.printf("Found \"%s\" in %s%n", remoteWord, remoteURL);
+                    return;
+                }
+            }
+        }
+
+        System.out.printf("Could not find \"%s\" in remote file%n", remoteWord);
+
+    }
+
+    /**
+     * Wrapper to BufferedReader.readLine that will just return null if there is a
+     * read error
+     * 
+     * @param reader {@link BufferedReader}
+     * @return Line
+     */
+    private String readLineOrNull(BufferedReader reader) {
+        try {
+            return reader.readLine();
+        } catch (IOException e) {
+            return null;
         }
     }
 }
