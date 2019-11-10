@@ -38,6 +38,12 @@
 		},
 		{
 			"path": "projects/borderofstars"
+		},
+		{
+			"path": "projects/fio"
+		},
+		{
+			"path": "part2"
 		}
 	],
 	"settings": {}
