@@ -5,11 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.nio.file.Files;
-import java.nio.file.Path;
 
 public class FileUtils {
     private static FileUtils instance = null;
@@ -126,7 +124,8 @@ public class FileUtils {
      * @return List of all lines from file
      * @throws IOException
      */
-    public static List<String> readLines(String filePath) throws IOException {
-        return Files.readAllLines(Paths.get(filePath));
+    public static String[] readLines(String filePath) throws IOException {
+        List<String> lines = Files.readAllLines(Paths.get(filePath));
+        return lines.toArray(new String[lines.size()]);
     }
 }

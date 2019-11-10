@@ -13,6 +13,7 @@ package ca.retrylife.ics4u.fileIO;
 import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 
 import ca.retrylife.libics.files.FileUtils;
 import ca.retrylife.libics.files.STDIO;
@@ -64,7 +65,14 @@ public class App extends Assignment {
     @Override
     public void run() {
 
-        /* Read user input to file */
+        // Run each part in it's own scope
+        part1();
+        part2();
+    }
+
+    /* Read user input to file */
+    private void part1() {
+
         System.out.println("Enter text to be written to a file");
         System.out.println("Entering \".\" by itself on a line will stop reading, and move on");
 
@@ -115,5 +123,26 @@ public class App extends Assignment {
         // Inform the user where the file can be found
         System.out.printf("The console file can be found at: %s/%s%n", FileUtils.getResourcePath(), consoleFilePath);
 
+    }
+
+    /* Read file, line-by-line, and print it */
+    private void part2() {
+
+        System.out.println("\nHere is a file. Read line-by-line:");
+
+        // Read file, or skip
+        String[] lines;
+        try {
+            String filePath = FileUtils.constructPathString(FileUtils.getResourcePath(), folderName, wordFile);
+            lines = FileUtils.readLines(filePath);
+        } catch (IOException e) {
+            System.out.printf("Could not read words list due to: %n%s%n", e);
+            return;
+        }
+
+        // Print each line
+        for (String line : lines) {
+            System.out.printf("%s%n", line);
+        }
     }
 }
