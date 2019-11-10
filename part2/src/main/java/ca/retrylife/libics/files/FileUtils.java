@@ -6,7 +6,9 @@ import java.io.InputStream;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class FileUtils {
@@ -115,5 +117,16 @@ public class FileUtils {
             }
 
         }
+    }
+
+    /**
+     * Read all lines from a file
+     * 
+     * @param filePath File path
+     * @return List of all lines from file
+     * @throws IOException
+     */
+    public static List<String> readLines(String filePath) throws IOException {
+        return Files.readAllLines(Paths.get(filePath));
     }
 }

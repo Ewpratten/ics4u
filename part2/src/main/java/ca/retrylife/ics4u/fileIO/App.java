@@ -22,10 +22,12 @@ public class App extends Assignment {
     /* Configuration constants */
     private final String folderName = "fileIO";
     private final String consoleLogFileName = "consolelog.txt";
+    private final String wordFile = "words.txt";
 
     /* Vars */
-    BufferedReader stdin;
-    FileWriter consoleFile; // This is a wrapper for PrintWriter.. Don't be mad plz
+    private BufferedReader stdin;
+    private FileWriter consoleFile; // This is a wrapper for PrintWriter.. Don't be mad plz
+    private String consoleFilePath;
 
     public static void main(String[] args) {
         (new App()).run();
@@ -41,7 +43,7 @@ public class App extends Assignment {
         /* Create writer for console file */
 
         // Construct platform-independent filepath
-        String consoleFilePath = FileUtils.constructPathString(folderName, consoleLogFileName);
+        consoleFilePath = FileUtils.constructPathString(folderName, consoleLogFileName);
 
         // Build directory structure to ensure file can be safely created
         FileUtils.mkStructure(FileUtils.constructPathString(FileUtils.getResourcePath(), consoleFilePath), false);
@@ -57,12 +59,61 @@ public class App extends Assignment {
             return;
         }
 
-        
-
     }
 
     @Override
     public void run() {
+
+        /* Read user input to file */
+        System.out.println("Enter text to be written to a file");
+        System.out.println("Entering \".\" by itself on a line will stop reading, and move on");
+
+        String input = "";
+        while (true) {
+            // Print input indicator
+            System.out.print("> ");
+
+            // Try to read user input, or break out of loop
+            try {
+                input = stdin.readLine();
+            } catch (IOException e) {
+                System.out.println("Could not read input. Skipping task");
+                break;
+            }
+
+            // Break out of loop if end-of-input is found
+            if (input.equals(".")) {
+                break;
+            }
+
+            try {
+                // Write line to file (platform safe)
+                consoleFile.write(String.format("%s%n", input));
+            } catch (IOException e) {
+                System.out.println("Failed to write to console file!");
+                break;
+            }
+
+        }
+
+        // Write some lines to the file programmatically
+        String footer = "\n\n---\nThis file was created by the fileIO program\nThis is a new line to fill out the requirements";
+        try {
+            // Write line to file (platform safe)
+            consoleFile.write(String.format("%s%n", footer));
+        } catch (IOException e) {
+            System.out.println("Failed to write to console file!");
+        }
+
+        // Close console file
+        try {
+            consoleFile.close();
+        } catch (IOException e) {
+            System.out.printf("Failed to close console file with error: %n%s%n", e);
+        }
+
+        // Inform the user where the file can be found
+        System.out.printf("The console file can be found at: %s/%s%n", FileUtils.getResourcePath(), consoleFilePath);
 
     }
 }
