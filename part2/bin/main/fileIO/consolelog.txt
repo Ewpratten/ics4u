@@ -1,5 +1,0 @@
-
-
----
-This file was created by the fileIO program
-This is a new line to fill out the requirements

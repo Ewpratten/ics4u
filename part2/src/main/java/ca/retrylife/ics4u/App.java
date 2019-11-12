@@ -3,7 +3,6 @@
  */
 package ca.retrylife.ics4u;
 
-
 public class App {
 
     public static void main(String[] args) {
