@@ -33,7 +33,7 @@ public class Window extends JFrame {
         // Config window
         this.setSize(size);
         this.setLocation(pos);
-        this.setVisible(true);
+        // this.setVisible(true);
 
         // Create a thread for drawing callbacks
         this.thread = new Thread(this::run);

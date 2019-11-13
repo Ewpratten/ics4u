@@ -26,6 +26,12 @@ dependencies {
 
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
+
+    // https://mvnrepository.com/artifact/com.miglayout/miglayout-core
+    compile group: 'com.miglayout', name: 'miglayout-core', version: '5.2'
+    // https://mvnrepository.com/artifact/com.miglayout/miglayout-swing
+    compile group: 'com.miglayout', name: 'miglayout-swing', version: '5.2'
+
 }
 
 // Define the main class for the application

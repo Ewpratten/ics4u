@@ -1,12 +1,19 @@
 package ca.retrylife.ics4u.mario;
 
+import ca.retrylife.libics.files.FileUtils;
+import ca.retrylife.libics.graphics.ScreenTools;
 import ca.retrylife.libics.graphics.Window;
+import ca.retrylife.libics.graphics.sprites.Sprite;
+import ca.retrylife.libics.graphics.sprites.SpriteMap;
 import ca.retrylife.libics.math.MathUtils;
 
 import java.awt.Point;
+import java.io.IOException;
 import java.awt.Dimension;
-import java.awt.event.KeyListener;
-import java.awt.event.KeyEvent;
+import javax.imageio.ImageIO;
+import javax.swing.JPanel;
+import java.awt.Graphics;
+import java.awt.Color;
 
 public class Player {
 
@@ -19,8 +26,10 @@ public class Player {
     Point position;
     Dimension size;
     private double dx, dy = 0.0;
+    SpriteMap spriteMap;
+    Sprite pSprite;
 
-    public Player(Point pos, Dimension size) {
+    public Player(Point pos, Dimension size) throws IOException {
         // Set player pos
         position = pos;
         this.size = size;
@@ -28,6 +37,10 @@ public class Player {
         // Build a window to contain player sprite
         window = new Window("Mario", pos, size);
         window.registerUpdateHandler(this::update);
+
+        window.setUndecorated(true);
+
+        window.setBackground(new Color(0, 0, 0, 0));
 
         // Set onClose callback
         window.onClose(() -> {
@@ -37,6 +50,26 @@ public class Player {
         // Set Keystroke listeners
         window.registerKBDCallback(65, this::handleLeftMOV); // A
         window.registerKBDCallback(68, this::handleRightMOV); // D
+        window.registerKBDCallback(32, this::handleJump); // SPACE
+
+        // Load Sprites
+        spriteMap = new SpriteMap(ImageIO.read(FileUtils.getResource("mario/spritemap.png")), new Dimension(32, 64));
+        pSprite = spriteMap.getSprite(0, 1);
+
+        // Config JPanel for sprites
+        JPanel pane = new JPanel() {
+
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(pSprite.getImage(), 0, 0, null);
+            }
+        };
+
+        pane.setOpaque(false);
+
+        window.add(pane);
+        window.setVisible(true);
     }
 
     public void start() {
@@ -44,7 +77,16 @@ public class Player {
     }
 
     private void update(Window win) {
+        // Calc jump velocity
+        if (position.y + size.getHeight() >= ScreenTools.getScreenSize().getHeight()) {
+            dy = 0;
+        } else {
+            dy = 0;
+        }
 
+        // Draw window
+        position.y += dy;
+        window.setLocation(position);
     }
 
     /**
@@ -53,8 +95,6 @@ public class Player {
     private void updatePos() {
         // Move window from velocities
         position.x += dx;
-        position.y += dy;
-        window.setLocation(position);
         dx = 0;
     }
 
@@ -84,6 +124,11 @@ public class Player {
         dx = MathUtils.clamp(speed, -max_speed, max_speed);
 
         updatePos();
+    }
+
+    private void handleJump() {
+        dy = -10;
+        // updatePos();
     }
 
     /**

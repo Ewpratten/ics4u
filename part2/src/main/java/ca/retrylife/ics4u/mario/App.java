@@ -3,6 +3,7 @@ package ca.retrylife.ics4u.mario;
 import ca.retrylife.libics.frameworks.Assignment;
 
 import java.awt.Point;
+import java.io.IOException;
 import java.awt.Dimension;
 
 /**
@@ -22,7 +23,12 @@ public class App extends Assignment {
         register("Mario");
 
         // Create a player
-        player = new Player(new Point(1, 1), new Dimension(64, 32));
+        try{
+            player = new Player(new Point(1, 1), new Dimension(16,64));
+        } catch (IOException e) {
+            System.out.printf("Could not create player: %n%s%n", e);
+            System.exit(1);
+        }
 
         // Read the computer screen size
         // screenSize = ScreenTools.getScreenSize();
