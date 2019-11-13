@@ -3,6 +3,7 @@ package ca.retrylife.ics4u.mario;
 import ca.retrylife.libics.files.FileUtils;
 import ca.retrylife.libics.graphics.ScreenTools;
 import ca.retrylife.libics.graphics.Window;
+import ca.retrylife.libics.graphics.sprites.AnimatedSprite;
 import ca.retrylife.libics.graphics.sprites.Sprite;
 import ca.retrylife.libics.graphics.sprites.SpriteMap;
 import ca.retrylife.libics.math.MathUtils;
@@ -14,11 +15,12 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.image.BufferedImage;
 
 public class Player {
 
     /* Config */
-    private final double max_speed = 10;
+    private final double max_speed = 15;
     private double speed = 100;
 
     /* Locals */
@@ -27,7 +29,13 @@ public class Player {
     Dimension size;
     private double dx, dy = 0.0;
     SpriteMap spriteMap;
-    Sprite pSprite;
+    // Sprite pSprite;
+    Sprite walk1;
+    Sprite walk2;
+    // Sprite walk3;
+    double diff = 0.0;
+    JPanel pane;
+    AnimatedSprite walkAnimation;
 
     public Player(Point pos, Dimension size) throws IOException {
         // Set player pos
@@ -54,15 +62,32 @@ public class Player {
 
         // Load Sprites
         spriteMap = new SpriteMap(ImageIO.read(FileUtils.getResource("mario/spritemap.png")), new Dimension(32, 64));
-        pSprite = spriteMap.getSprite(0, 1);
+        // pSprite = spriteMap.getSprite(0, 1);
+        walk1 = spriteMap.getSprite(1, 1);
+        walk2 = spriteMap.getSprite(2, 1);
+        // walk3 = spriteMap.getSprite(3, 1);
+
+        walkAnimation = new AnimatedSprite(walk1, walk2);
 
         // Config JPanel for sprites
-        JPanel pane = new JPanel() {
+        pane = new JPanel() {
 
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                g.drawImage(pSprite.getImage(), 0, 0, null);
+
+                // Read next frame from animator
+                BufferedImage img = walkAnimation.getCurrentFrame().getImage();
+
+                // Flip source X axis based on movement direction
+                int sx1 = (diff < 0) ? (int) img.getWidth() : 0;
+                int sx2 = (diff < 0) ? 0 : (int) img.getWidth();
+
+                // Draw sprite
+                g.setColor(new Color(0, 0, 0));
+                g.fillRect(0, 0, img.getWidth(), img.getHeight());
+                g.drawImage(img, 0, 0, (int) img.getWidth(), (int) img.getHeight(), sx1, 0, sx2, (int) img.getHeight(),
+                        null);
             }
         };
 
@@ -81,12 +106,21 @@ public class Player {
         if (position.y + size.getHeight() >= ScreenTools.getScreenSize().getHeight()) {
             dy = 0;
         } else {
-            dy = 0;
+            dy = 10;
         }
 
         // Draw window
         position.y += dy;
+
         window.setLocation(position);
+        pane.repaint();
+
+        try {
+            Thread.sleep(50);
+        } catch (InterruptedException e) {
+
+        }
+
     }
 
     /**
@@ -94,8 +128,11 @@ public class Player {
      */
     private void updatePos() {
         // Move window from velocities
+        diff = position.x;
         position.x += dx;
+        diff = position.x - diff;
         dx = 0;
+        walkAnimation.iter();
     }
 
     private void handleLeftMOV() {
@@ -127,7 +164,8 @@ public class Player {
     }
 
     private void handleJump() {
-        dy = -10;
+        // dy = -10;
+        position.y -= 50;
         // updatePos();
     }
 
