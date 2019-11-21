@@ -4,6 +4,13 @@
             "type": "java",
             "name": "CodeLens (Launch) - App",
             "request": "launch",
+            "mainClass": "ca.retrylife.ics4u.riotool.App",
+            "projectName": "ics4u"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - App",
+            "request": "launch",
             "mainClass": "ca.retrylife.ics4u.mario.App",
             "projectName": "ics4u"
         },

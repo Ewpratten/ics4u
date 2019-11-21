@@ -28,17 +28,21 @@ public class Window extends JFrame {
      * @param size Window size
      */
     public Window(String name, Point pos, Dimension size) {
-        super(name);
+        this(name);
 
         // Config window
         this.setSize(size);
         this.setLocation(pos);
-        // this.setVisible(true);
+
+    }
+
+    public Window(String name) {
+        super(name);
 
         // Create a thread for drawing callbacks
         this.thread = new Thread(this::run);
 
-        // Enable keystroke callbacks
+        // Enable keystroke callbacks to handle registered callbacks
         this.addKeyListener(new KeyListener() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -47,8 +51,6 @@ public class Window extends JFrame {
 
             @Override
             public void keyPressed(KeyEvent e) {
-                // System.out.println("Key pressed code=" + e.getKeyCode() + ", char=" +
-                // e.getKeyChar());
                 handleKeystroke(e);
             }
 
@@ -56,7 +58,6 @@ public class Window extends JFrame {
             public void keyReleased(KeyEvent e) {
             }
         });
-
     }
 
     /**
@@ -141,6 +142,10 @@ public class Window extends JFrame {
         keybindings.remove(keycode);
     }
 
+    /**
+     * Handle callbacks for keystrokes (Keypressed event)
+     * @param ke Event
+     */
     private void handleKeystroke(KeyEvent ke) {
 
         // Run the callback if it exists

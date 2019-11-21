@@ -30,8 +30,6 @@ public class App extends Assignment {
             System.exit(1);
         }
 
-        // Read the computer screen size
-        // screenSize = ScreenTools.getScreenSize();
 
     }
 

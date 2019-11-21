@@ -3,10 +3,13 @@
  */
 package ca.retrylife.ics4u;
 
-public class App {
+public class App{
 
     public static void main(String[] args) {
         System.out.println("Run each assignment from it's own App file");
+
+        // Change out this line to select default project to run
+        (new ca.retrylife.ics4u.riotool.App()).run();
 
     }
 }

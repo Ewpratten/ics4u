@@ -1,0 +1,20 @@
+--Get Robot log--
+cat /home/lvuser/FRC_UserProgram.log
+
+--Set robot name--
+echo "MiniBot" > /home/lvuser/robotName
+
+--Get robot name--
+cat /home/lvuser/robotName
+
+--Stop robot code--
+. /etc/profile.d/natinst-path.sh; /usr/local/frc/bin/frcKillRobot.sh -t 2> /dev/null
+
+--Restart robot code--
+. /etc/profile.d/natinst-path.sh; /usr/local/frc/bin/frcKillRobot.sh -t -r
+
+--Clear all files--
+rm -rf ./*.jar robotCommand frcUserProgram
+
+--Clear deploy (only as root)--
+rm -rf /home/lvuser/deploy

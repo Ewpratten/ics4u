@@ -28,7 +28,7 @@ public class App extends Assignment {
     private final String wordFile = "words.txt";
     private final String remoteURL = "https://retrylife.ca";
     private final String remoteWord = "Canada";
-
+ 
     /* Vars */
     private BufferedReader stdin;
     private FileWriter consoleFile; // This is a wrapper for PrintWriter.. Don't be mad plz

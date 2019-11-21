@@ -27,14 +27,16 @@ public class Player {
     Window window;
     Point position;
     Dimension size;
+    JPanel pane;
+
+    // Movement
     private double dx, dy = 0.0;
+    double diff = 0.0;
+
+    // Sprites
     SpriteMap spriteMap;
-    // Sprite pSprite;
     Sprite walk1;
     Sprite walk2;
-    // Sprite walk3;
-    double diff = 0.0;
-    JPanel pane;
     AnimatedSprite walkAnimation;
 
     public Player(Point pos, Dimension size) throws IOException {
@@ -62,14 +64,12 @@ public class Player {
 
         // Load Sprites
         spriteMap = new SpriteMap(ImageIO.read(FileUtils.getResource("mario/spritemap.png")), new Dimension(32, 64));
-        // pSprite = spriteMap.getSprite(0, 1);
         walk1 = spriteMap.getSprite(1, 1);
         walk2 = spriteMap.getSprite(2, 1);
-        // walk3 = spriteMap.getSprite(3, 1);
 
         walkAnimation = new AnimatedSprite(walk1, walk2);
 
-        // Config JPanel for sprites
+        // Config JPanel for painting sprites
         pane = new JPanel() {
 
             @Override
@@ -111,10 +111,10 @@ public class Player {
 
         // Draw window
         position.y += dy;
-
         window.setLocation(position);
         pane.repaint();
 
+        // Sleep to reduce flickering
         try {
             Thread.sleep(50);
         } catch (InterruptedException e) {
@@ -135,38 +135,39 @@ public class Player {
         walkAnimation.iter();
     }
 
+    // Handle right player movement
     private void handleLeftMOV() {
 
         // Only allow movement if not about to collide
         if (predictCollision(new Point((int) (position.x - max_speed), position.y))) {
             dx = 0;
-            System.out.println("WALL!");
             return;
         }
 
+        // Clamp dx. This allows for speed ramping in the future
         dx = MathUtils.clamp(-speed, -max_speed, max_speed);
 
         updatePos();
     }
 
+    // Handle left player movement
     private void handleRightMOV() {
 
         // Only allow movement if not about to collide
         if (predictCollision(new Point((int) (position.x + max_speed + size.getWidth()), position.y))) {
             dx = 0;
-            System.out.println("WALL!");
             return;
         }
 
+        // Clamp dx. This allows for speed ramping in the future
         dx = MathUtils.clamp(speed, -max_speed, max_speed);
 
         updatePos();
     }
 
+    // Handle player jumping
     private void handleJump() {
-        // dy = -10;
         position.y -= 50;
-        // updatePos();
     }
 
     /**
@@ -180,6 +181,11 @@ public class Player {
         return predictCollision(position);
     }
 
+    /**
+     * Predict a collision at a point
+     * @param pos Position to predict from
+     * @return Will collide?
+     */
     private boolean predictCollision(Point pos) {
         boolean leftTop = World.getInstance().isColliding(pos);
         boolean leftBottom = World.getInstance().isColliding(pos);
