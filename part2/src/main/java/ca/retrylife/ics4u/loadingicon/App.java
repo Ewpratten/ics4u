@@ -3,7 +3,6 @@ package ca.retrylife.ics4u.loadingicon;
 import ca.retrylife.libics.frameworks.Assignment;
 import ca.retrylife.libics.graphics.Window;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.Point;
 
@@ -65,7 +64,7 @@ public class App extends Assignment {
 
             // Add a little delay to stop killing my laptop
             try {
-                Thread.sleep(50);
+                Thread.sleep(25);
             } catch (InterruptedException e) {
                 System.out.println("Failed to sleep");
             }

@@ -32,17 +32,30 @@ public class Animation {
     Bar m_bar;
 
     // Sizing Base
-    final Dimension baseSizing = new Dimension( 150, 50);
+    final Dimension baseSizing = new Dimension(150, 50);
 
     public Animation(Point centre) {
         // Create each graphical component
         m_container = new Container(baseSizing.width, baseSizing.height, centre);
-        m_bar = new Bar(centre.x , centre.y , baseSizing.width - 20, baseSizing.height - 8);
+        m_bar = new Bar(baseSizing.width - 8, baseSizing.height - 8, centre);
+
+        // Shrink bar
+        m_bar.setHeight(0);
 
         /* Build animation */
         frames.add(new Keyframe((i) -> {
-            m_container.setOpacity(i * 10);
-        }, 10));
+            // Set container opacity
+            m_container.setOpacity(i * 5);
+        }, 20));
+
+        frames.add(new Keyframe((i) -> {
+            // Determine bar height from progress
+            double height = (baseSizing.height - 8) * ((double) i / 15);
+
+            // Set the bar height
+            m_bar.setHeight((int) height);
+
+        }, 15));
     }
 
     /**
@@ -90,7 +103,7 @@ public class Animation {
 
         // Draw each component
         m_container.draw(g);
-        // m_bar.draw(g);
+        m_bar.draw(g);
 
     }
 }

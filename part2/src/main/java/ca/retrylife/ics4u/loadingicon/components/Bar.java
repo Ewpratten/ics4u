@@ -4,14 +4,20 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
+import java.awt.Point;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
 @Data
 public class Bar {
-    @Setter @Getter 
+    @Setter
+    @Getter
     private int x, y, width, height;
+
+    public Bar(int width, int height, Point centre) {
+        this(centre.x - (width / 2), centre.y - (height / 2), width, height);
+    }
 
     public Bar(int x, int y, int width, int height) {
         this.x = x;
@@ -20,12 +26,15 @@ public class Bar {
         this.height = height;
     }
 
+    public void setHeight(int height) {
+        this.height = height;
+    }
 
     public void draw(@NonNull Graphics g) {
-        g.setColor(Color.black);
+        g.setColor(Color.blue);
         g.fillRect(x, y, width, height);
         // g.fillOval(x - (height/2), y, height, height);
         // g.fillOval(x - (height/2) + width, y, height, height);
-    
+
     }
 }
