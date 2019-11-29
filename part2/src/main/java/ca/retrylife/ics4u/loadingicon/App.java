@@ -5,6 +5,7 @@ import ca.retrylife.libics.graphics.Window;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Graphics;
+import java.awt.Point;
 
 import javax.swing.JPanel;
 
@@ -36,20 +37,21 @@ public class App extends Assignment {
             }
         };
 
-        // hide
-        graphicsPanel.setOpaque(false);
-        graphicsPanel.setBackground(new Color(0,0,0,0));
-
         // Config window
-        window.setSize(400, 400);
+        window.setSize(800, 600);
         window.setLocationRelativeTo(null);
         window.setResizable(false);
         window.add(graphicsPanel);
         window.setUndecorated(true);
-        window.setBackground(new Color(0,0,0,0));
+        window.setBackground(new Color(0, 0, 0, 0));
+
+        // hide
+        graphicsPanel.setOpaque(false);
+        graphicsPanel.setBackground(new Color(0, 0, 0, 0));
+        graphicsPanel.setSize(window.getSize());
 
         // Create an animation
-        animation = new Animation();
+        animation = new Animation(new Point(graphicsPanel.getWidth() / 2, graphicsPanel.getHeight() / 2));
 
     }
 
@@ -90,5 +92,5 @@ public class App extends Assignment {
         animation.drawNextFrame(g);
     }
 
-    // private void 
+    // private void
 }

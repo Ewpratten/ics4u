@@ -2,9 +2,10 @@ package ca.retrylife.ics4u.loadingicon;
 
 import lombok.NonNull;
 import java.awt.Graphics;
-import java.awt.Rectangle;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.function.Consumer;
+import java.awt.Point;
 
 import ca.retrylife.ics4u.loadingicon.components.Bar;
 import ca.retrylife.ics4u.loadingicon.components.Container;
@@ -30,13 +31,13 @@ public class Animation {
     Container m_container;
     Bar m_bar;
 
-    // Sizing
-    final Rectangle baseSizing = new Rectangle(40, 40, 150, 50);
+    // Sizing Base
+    final Dimension baseSizing = new Dimension( 150, 50);
 
-    public Animation() {
+    public Animation(Point centre) {
         // Create each graphical component
-        m_container = new Container(baseSizing.x, baseSizing.y, baseSizing.width, baseSizing.height);
-        m_bar = new Bar(baseSizing.x + 10, baseSizing.y + 4, baseSizing.width - 20, baseSizing.height - 8);
+        m_container = new Container(baseSizing.width, baseSizing.height, centre);
+        m_bar = new Bar(centre.x , centre.y , baseSizing.width - 20, baseSizing.height - 8);
 
         /* Build animation */
         frames.add(new Keyframe((i) -> {

@@ -7,16 +7,20 @@ import lombok.Setter;
 
 import java.awt.Color;
 import java.awt.Graphics;
-
-import org.graalvm.compiler.loop.MathUtil;
+import java.awt.Point;
 
 import ca.retrylife.libics.math.MathUtils;
 
 @Data
 public class Container {
-    @Setter @Getter 
+    @Setter
+    @Getter
     private int x, y, width, height;
     private int opacity = 100;
+
+    public Container(int width, int height, Point centre) {
+        this(centre.x - (width / 2), centre.y - (height / 2), width, height);
+    }
 
     public Container(int x, int y, int width, int height) {
         this.x = x;
@@ -29,13 +33,11 @@ public class Container {
         opacity = (int) Math.round(MathUtils.map(percent, 0, 100, 0, 255));
     }
 
-
-
     public void draw(@NonNull Graphics g) {
-        g.setColor(new Color(255,255,255,opacity));
+        g.setColor(new Color(255, 255, 255, opacity));
         g.fillRect(x, y, width, height);
         // g.fillOval(x - (height/2), y, height, height);
         // g.fillOval(x - (height/2) + width, y, height, height);
-    
+
     }
 }
