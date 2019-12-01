@@ -24,7 +24,6 @@ public class Animation {
     }
 
     // Keep track of the animation frame count
-    private int frame = 0;
     private ArrayList<Keyframe> frames = new ArrayList<>();
 
     /* Animation components */
