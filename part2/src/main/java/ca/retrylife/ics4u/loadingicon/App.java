@@ -5,6 +5,7 @@ import ca.retrylife.libics.graphics.Window;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
@@ -30,6 +31,7 @@ public class App extends Assignment {
             protected void paintComponent(Graphics arg0) {
                 super.paintComponent(arg0);
 
+                arg0.clearRect(0, 0, window.getWidth(), window.getHeight());
                 // Run custom paint method
                 draw(arg0);
 
@@ -88,7 +90,8 @@ public class App extends Assignment {
         // g.dra
 
         // Draw the next frame of the animation
-        animation.drawNextFrame(g);
+        animation.drawNextFrame((Graphics2D) g);
+
     }
 
     // private void

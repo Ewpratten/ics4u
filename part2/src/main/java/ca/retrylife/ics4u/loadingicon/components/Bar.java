@@ -30,11 +30,27 @@ public class Bar {
         this.height = height;
     }
 
+    /**
+     * Set the box width, while preserving position
+     * 
+     * @param width
+     */
+    public void setWidth(int width, Point centre) {
+        this.x = centre.x - (width / 2);
+        this.width = width;
+    }
+
+    public int getMinX() {
+        return x;
+    }
+
+    public int getMaxX() {
+        return x + width;
+    }
+
     public void draw(@NonNull Graphics g) {
         g.setColor(Color.blue);
         g.fillRect(x, y, width, height);
-        // g.fillOval(x - (height/2), y, height, height);
-        // g.fillOval(x - (height/2) + width, y, height, height);
 
     }
 }

@@ -13,9 +13,8 @@ import ca.retrylife.libics.math.MathUtils;
 
 @Data
 public class Container {
-    @Setter
-    @Getter
-    private int x, y, width, height;
+    public int x, y, ox;
+    public int width, height;
     private int opacity = 100;
 
     public Container(int width, int height, Point centre) {
@@ -24,20 +23,27 @@ public class Container {
 
     public Container(int x, int y, int width, int height) {
         this.x = x;
+        this.ox = x;
         this.y = y;
         this.width = width;
         this.height = height;
+    }
+
+    public void resetOrigin() {
+        this.ox = x;
     }
 
     public void setOpacity(double percent) {
         opacity = (int) Math.round(MathUtils.map(percent, 0, 100, 0, 255));
     }
 
+    public void setXOffset(int offset, Point centre) {
+        x = centre.x - (width / 2) + offset;
+    }
+
     public void draw(@NonNull Graphics g) {
         g.setColor(new Color(255, 255, 255, opacity));
         g.fillRect(x, y, width, height);
-        // g.fillOval(x - (height/2), y, height, height);
-        // g.fillOval(x - (height/2) + width, y, height, height);
 
     }
 }
