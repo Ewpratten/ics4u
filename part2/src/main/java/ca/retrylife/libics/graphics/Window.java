@@ -9,6 +9,7 @@ import java.util.function.Consumer;
 import java.awt.Dimension;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
+import java.awt.Color;
 
 /**
  * Wrapper and utils for a JFrame window
@@ -19,6 +20,8 @@ public class Window extends JFrame {
     private Consumer<Window> drawCallback = null;
     private Thread thread;
     private HashMap<Integer, Runnable> keybindings = new HashMap<Integer, Runnable>();
+
+    private final long DEFAULT_FRAME_DELAY = 25L;
 
     /**
      * Create a new Window, and display it
@@ -92,7 +95,19 @@ public class Window extends JFrame {
 
             // Check for if a callback was set
             if (drawCallback == null) {
-                System.out.println("Window trying to draw nothing!!");
+                // System.out.println("Window trying to draw nothing!!");
+
+                // Just repaint self
+                repaint();
+
+                // Wait a bit as a default
+                try{
+                    Thread.sleep(DEFAULT_FRAME_DELAY);
+                } catch (InterruptedException e) {
+                    System.out.println("Window default drawing method interrupted");
+                    e.printStackTrace();
+                }
+
                 continue;
             }
 
@@ -144,6 +159,7 @@ public class Window extends JFrame {
 
     /**
      * Handle callbacks for keystrokes (Keypressed event)
+     * 
      * @param ke Event
      */
     private void handleKeystroke(KeyEvent ke) {
@@ -172,6 +188,37 @@ public class Window extends JFrame {
                 run.run();
             }
         });
+    }
+
+    /**
+     * Automatically configure the window with some default params
+     * 
+     * @return Window
+     */
+    public Window autoConfig() {
+
+        // Simple config
+        setSize(800, 600);
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        return this;
+    }
+
+    public Window makeInvisible() {
+        setUndecorated(true);
+        setBackground(new Color(0, 0, 0, 0));
+
+        return this;
+    }
+
+    public void trySleep(long ms) {
+        try{
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 }

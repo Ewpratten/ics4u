@@ -2,6 +2,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - FocusEventASN",
+            "request": "launch",
+            "mainClass": "ca.retrylife.ics4u.focusevent.FocusEventASN",
+            "projectName": "ics4u"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - FocusEvent",
+            "request": "launch",
+            "mainClass": "ca.retrylife.ics4u.focusevent.FocusEvent",
+            "projectName": "ics4u"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - App",
             "request": "launch",
             "mainClass": "ca.retrylife.ics4u.loadingicon.App",
