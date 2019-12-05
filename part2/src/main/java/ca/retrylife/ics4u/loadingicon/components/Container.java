@@ -1,9 +1,5 @@
 package ca.retrylife.ics4u.loadingicon.components;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.Setter;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -11,7 +7,6 @@ import java.awt.Point;
 
 import ca.retrylife.libics.math.MathUtils;
 
-@Data
 public class Container {
     public int x, y, ox;
     public int width, height;
@@ -41,7 +36,7 @@ public class Container {
         x = centre.x - (width / 2) + offset;
     }
 
-    public void draw(@NonNull Graphics g) {
+    public void draw( Graphics g) {
         g.setColor(new Color(255, 255, 255, opacity));
         g.fillRect(x, y, width, height);
 
