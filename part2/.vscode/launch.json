@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - Mandelbrot",
+            "request": "launch",
+            "mainClass": "ca.retrylife.ics4u.mandelbrot.Mandelbrot",
+            "projectName": "ics4u"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - FocusEventASN",
             "request": "launch",
             "mainClass": "ca.retrylife.ics4u.focusevent.FocusEventASN",

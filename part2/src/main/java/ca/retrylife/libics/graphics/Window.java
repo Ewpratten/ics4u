@@ -202,6 +202,7 @@ public class Window extends JFrame {
         setLocationRelativeTo(null);
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setBackground(new Color(240, 240, 241));
 
         return this;
     }

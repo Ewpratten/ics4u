@@ -21,7 +21,7 @@ import java.awt.Point;
 
 public class App {
     public static void main(String[] args) {
-        new App(35);
+        new App(50);
     }
 
     // Program configuration data
