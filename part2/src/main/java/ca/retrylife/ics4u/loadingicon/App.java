@@ -62,7 +62,9 @@ public class App extends Assignment {
         // window.registerUpdateHandler(this::draw);
         window.registerUpdateHandler((win) -> {
             // Repaint the window
-            win.repaint();
+            // win.repaint();
+
+            graphicsPanel.paintImmediately(0, 0, win.getWidth(), win.getHeight());
 
             // Add a little delay to stop killing my laptop
             try {

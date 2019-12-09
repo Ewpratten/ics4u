@@ -85,9 +85,10 @@ public class App {
         createStars(Configuration.star_count);
 
         // Final window configuration
+        window.setResizable(false);
         window.setLocationRelativeTo(null); // centre window
         window.setVisible(true); // must be the last (almost) thing that you do
-        window.setResizable(true);
+
     }
 
     /**

@@ -1,6 +1,5 @@
 package ca.retrylife.ics4u.loadingicon;
 
-import lombok.NonNull;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.function.Consumer;
@@ -190,11 +189,11 @@ public class Animation {
      * 
      * @param g Canvas
      */
-    public void drawNextFrame(@NonNull Graphics2D g) {
+    public void drawNextFrame(Graphics2D g) {
 
         handleAnimation();
         drawFrame(g);
-        frame++;
+        // frame++;
 
     }
 
@@ -226,7 +225,7 @@ public class Animation {
      * 
      * @param g Canvas
      */
-    public void drawFrame(@NonNull Graphics2D g) {
+    public void drawFrame(Graphics2D g) {
 
         // Draw each component
         m_container.draw(g);
