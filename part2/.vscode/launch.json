@@ -2,6 +2,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - RecursiveTreeDrawing",
+            "request": "launch",
+            "mainClass": "ca.retrylife.ics4u.recursivetree.RecursiveTreeDrawing",
+            "projectName": "ics4u"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - DragRectangle",
+            "request": "launch",
+            "mainClass": "ca.retrylife.ics4u.dragrectangle.DragRectangle",
+            "projectName": "ics4u"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - TriCollision",
             "request": "launch",
             "mainClass": "ca.retrylife.ics4u.tricollision.TriCollision",
