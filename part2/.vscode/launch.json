@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - Book",
+            "request": "launch",
+            "mainClass": "ca.retrylife.ics4u.objasn.Book",
+            "projectName": "ics4u"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - RecurseTree",
             "request": "launch",
             "mainClass": "ca.retrylife.ics4u.recursetree.RecurseTree",
