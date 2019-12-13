@@ -10,6 +10,9 @@ plugins {
     // Apply the java plugin to add support for Java
     id 'java'
 
+    // Add kotlin support
+    id 'kotlin'
+
     // Apply the application plugin to add support for building an application
     id 'application'
 
