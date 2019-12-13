@@ -27,8 +27,6 @@ Book() {
 These questions are answered [in the code](https://github.com/Ewpratten/ics4u/blob/master/part2/src/main/java/ca/retrylife/ics4u/objasn/Book.java).
 
 ## Question 10
-"this.title = title + n;" and not
-"title = title + n;
 
 The `this` references the class-scoped variable, not the one defined in the method. This will append "chapter" and `n` to the chapter title. Not to the local variable.
 
