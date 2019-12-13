@@ -96,6 +96,9 @@ public class RecurseTree extends Assignment {
 
     }
 
+    /**
+     * Executes the "list of instructions" for drawing, step-by-step
+     */
     private void draw(Graphics2D g) {
 
         // Configure draw settings
