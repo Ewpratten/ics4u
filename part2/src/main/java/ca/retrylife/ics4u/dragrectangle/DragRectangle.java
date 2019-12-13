@@ -9,10 +9,12 @@ import java.awt.Stroke;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.Point;
+import java.awt.Rectangle;
 
 public class DragRectangle extends JFrame implements MouseListener, MouseMotionListener {
     public static void main(String[] args) {
@@ -28,12 +30,18 @@ public class DragRectangle extends JFrame implements MouseListener, MouseMotionL
     int scrW = 400, scrH = 400; // screen width and height
     DrawingPanel panel;
 
+    /* Mouse trackers */
     Point mouse_start = new Point(0, 0);
     Point mouse_current = new Point(0, 0);
     boolean dragging = false;
+
+    /* Colours */
     Color foreColour = Color.GREEN.darker();
     Color backColour = Color.WHITE;
     Color stretchColour = Color.RED;
+
+    /* Rect tracker */
+    ArrayList<Rectangle> rects = new ArrayList<>();
 
     DragRectangle() {
         this.setTitle("Dragging a rectangle");
@@ -51,65 +59,93 @@ public class DragRectangle extends JFrame implements MouseListener, MouseMotionL
     private class DrawingPanel extends JPanel {
 
         /**
-         * Draw a rect, handling all quadrants
+         * Determine rect for current selection
          * 
-         * @param g
-         * @param dx
-         * @param dy
+         * @param dx Mouse dx
+         * @param dy Mouse dy
+         * @return Selection rect
          */
-        private void drawRect(Graphics g, int dx, int dy) {
+        private Rectangle determineRect(int dx, int dy) {
             if (dy < 0 && dx > 0) {
-                g.drawRect(mouse_start.x, mouse_current.y, mouse_current.x - mouse_start.x,
+                return new Rectangle(mouse_start.x, mouse_current.y, mouse_current.x - mouse_start.x,
                         mouse_start.y - mouse_current.y);
 
             } else if (dy < 0 && dx < 0) {
-                // Up and to left
-                g.drawRect(mouse_current.x, mouse_current.y, mouse_start.x - mouse_current.x,
+                return new Rectangle(mouse_current.x, mouse_current.y, mouse_start.x - mouse_current.x,
                         mouse_start.y - mouse_current.y);
 
             } else if (dy > 0 && dx < 0) {
-                g.drawRect(mouse_current.x, mouse_start.y, mouse_start.x - mouse_current.x,
+                return new Rectangle(mouse_current.x, mouse_start.y, mouse_start.x - mouse_current.x,
                         mouse_current.y - mouse_start.y);
 
             } else {
-                g.drawRect(mouse_start.x, mouse_start.y, mouse_current.x - mouse_start.x,
+                return new Rectangle(mouse_start.x, mouse_start.y, mouse_current.x - mouse_start.x,
                         mouse_current.y - mouse_start.y);
             }
         }
 
-        public void paintComponent(Graphics g) {
+        /**
+         * Wrap Graphics2D and allow drawing rects with Rectangle
+         * 
+         * @param g2   Graphics obj
+         * @param rect Rectangle to draw
+         */
+        private void drawRectFromRect(Graphics2D g2, Rectangle rect) {
+            g2.drawRect(rect.x, rect.y, rect.width, rect.height);
+        }
 
+        public void paintComponent(Graphics g) {
+            super.paintComponent(g);
+
+            // Cast a Graphics2D object, and enable antialiasing
             Graphics2D g2 = (Graphics2D) g;
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-            int dx = mouse_current.x - mouse_start.x;
-            int dy = mouse_current.y - mouse_start.y;
+            /* Render all rects */
+
+            // Set drawing mode for stored rects
+            g2.setPaintMode();
+            g2.setColor(foreColour);
+            g2.setStroke(stroke);
+
+            // Draw each rect
+            for (Rectangle rect : rects) {
+                drawRectFromRect(g2, rect);
+            }
+
+            // Determine mouse position differences
+            Point mouseDiff = new Point(mouse_current.x - mouse_start.x, mouse_current.y - mouse_start.y);
 
             if (dragging) {
                 /*
                  * If you just try and draw a white rectangle, it erases all other rectangles
                  * too. Use XOR mode
                  */
-                // g2.setColor(this.getBackground());
 
-                // g2.setStroke(dashed);
-
+                // Set drawing mode for selection box
                 g2.setColor(stretchColour);
-
-                // Draw border
-
                 g2.setXORMode(this.getBackground());
                 g2.setStroke(dashed);
-                drawRect(g, dx, dy);
 
             } else {
+
+                // Set draw mode for 1st time render
                 g2.setPaintMode();
                 g2.setColor(foreColour);
                 g2.setStroke(stroke);
-                // Draw final box
-                drawRect(g, dx, dy);
+
+                // Add rect to rects
+                rects.add(determineRect(mouseDiff.x, mouseDiff.y));
 
             }
+
+            /* Handle selection rendering */
+
+            // Determine selection rect
+            Rectangle selection = determineRect(mouseDiff.x, mouseDiff.y);
+
+            // Draw selection
+            drawRectFromRect(g2, selection);
 
         }
     }
