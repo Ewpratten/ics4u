@@ -22,6 +22,8 @@ public class Window extends JFrame {
     private HashMap<Integer, Runnable> keybindings = new HashMap<Integer, Runnable>();
 
     private final long DEFAULT_FRAME_DELAY = 25L;
+    long frameDelay = 0;
+    boolean newFrameDelaySet = false;
 
     /**
      * Create a new Window, and display it
@@ -102,7 +104,7 @@ public class Window extends JFrame {
 
                 // Wait a bit as a default
                 try{
-                    Thread.sleep(DEFAULT_FRAME_DELAY);
+                    Thread.sleep((newFrameDelaySet)?frameDelay:DEFAULT_FRAME_DELAY);
                 } catch (InterruptedException e) {
                     System.out.println("Window default drawing method interrupted");
                     e.printStackTrace();
@@ -215,11 +217,16 @@ public class Window extends JFrame {
     }
 
     public void trySleep(long ms) {
-        try{
+        try {
             Thread.sleep(ms);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+    
+    public void setFrameDelay(long delay) {
+        newFrameDelaySet = true;
+        frameDelay = delay;
     }
 
 }
