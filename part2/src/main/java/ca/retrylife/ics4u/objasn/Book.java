@@ -89,7 +89,7 @@ public class Book {
      * Print the current chapter number
      */
     void printCurrentChapter() {
-        System.out.println(getCurrentChapter().n);
+        System.out.println(getCurrentChapter().getNumber());
     }
 
     // This will hold information about the current chapter of the book. That's why
