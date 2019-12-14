@@ -105,7 +105,11 @@ public class Book {
 
         void end() {
             System.out.println(title + " ends on a cliffhanger");
-            n++;
+
+            // Switched to use Book's setChapter. 
+            // NOTE: this will not do anything if there is only 1 chapter defined
+            setChapter(n + 1);
+
             String title = "chapter ";
             this.title = title + n;
         }
