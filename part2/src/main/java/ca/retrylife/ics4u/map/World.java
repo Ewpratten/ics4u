@@ -215,10 +215,15 @@ public class World {
         // Create a fill mask, and determine if this splash is an ocean of not
         boolean is_ocean = splash(square);
 
-        // trySetSquareValue(square, SquareType.kLake);
 
     }
 
+    /**
+     * Check if a point is valid (is it a valid array index)
+     * 
+     * @param loc Point to check
+     * @return Is valid?
+     */
     private boolean isValidPoint(Point loc) {
         return (MathUtils.inRange(loc.x, 0, grid[0].length - 1) && MathUtils.inRange(loc.y, 0, grid.length - 1));
     }
@@ -249,7 +254,6 @@ public class World {
         boolean hasHitEdge = false;
 
         // Check for an edge hit
-        
 
         // Plot the splash
         grid[start.y][start.x] = SquareType.kUnknown;
@@ -263,7 +267,7 @@ public class World {
             if (splash(next)) {
                 hasHitEdge = true;
             }
-            ;
+
         }
 
         // Handle right corner
@@ -273,7 +277,7 @@ public class World {
             if (splash(next)) {
                 hasHitEdge = true;
             }
-            ;
+
         }
 
         // Handle up
@@ -283,7 +287,7 @@ public class World {
             if (splash(next)) {
                 hasHitEdge = true;
             }
-            ;
+
         }
 
         // Handle down
@@ -293,9 +297,11 @@ public class World {
             if (splash(next)) {
                 hasHitEdge = true;
             }
-            ;
+
         }
-        return false;
+
+        // Return if edge has been hit
+        return hasHitEdge;
     }
 
     /**

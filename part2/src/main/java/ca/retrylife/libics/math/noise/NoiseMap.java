@@ -81,8 +81,6 @@ public class NoiseMap {
             for (int j = 0; j < map[i].length; j++) {
                 int distance = getNearestDistanceTo(new Point(i, j), 1);
 
-                System.out.println(distance);
-
                 map[i][j] = distance + 1;
             }
         }

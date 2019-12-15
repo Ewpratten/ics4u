@@ -10,7 +10,7 @@ import java.awt.Point;
 public class MouseHandler extends MouseAdapter {
 
     /* Mouse data */
-    private Point pos = new Point(0, 0);
+    private Point pos = new Point(-1, -1);
 
     @Override
     public void mouseMoved(MouseEvent e) {

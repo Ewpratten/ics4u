@@ -1,11 +1,7 @@
 package ca.retrylife.ics4u.map;
 
 import java.awt.Dimension;
-import java.awt.event.MouseAdapter;
-import java.awt.Point;
-import java.awt.event.MouseEvent;
 
-import ca.retrylife.ics4u.map.World.SquareType;
 import ca.retrylife.libics.frameworks.Assignment;
 import ca.retrylife.libics.graphics.Window;
 
