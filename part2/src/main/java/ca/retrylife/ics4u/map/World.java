@@ -163,6 +163,12 @@ public class World {
      * @return Square position
      */
     public Point pixelToSquare(Point pix) {
+        // Handle the default starting position for mouse input
+        if (pix.x == -1 && pix.y == -1) {
+            return pix;
+        }
+
+        // Handle all other inputs
         return new Point((int) (pix.x / gridSquare.width), (int) (pix.y / gridSquare.height));
     }
 
@@ -215,6 +221,7 @@ public class World {
         // Create a fill mask, and determine if this splash is an ocean of not
         boolean is_ocean = splash(square);
 
+        System.out.println(is_ocean);
 
     }
 
@@ -226,6 +233,18 @@ public class World {
      */
     private boolean isValidPoint(Point loc) {
         return (MathUtils.inRange(loc.x, 0, grid[0].length - 1) && MathUtils.inRange(loc.y, 0, grid.length - 1));
+    }
+
+    /**
+     * Check if a point is touching the edge of the grid by checking the validity of
+     * the points around it. This should be used in conjunction with isValidPoint,
+     * as it will throw false-positives for invalid points.
+     * 
+     * @param loc Point to check
+     * @return Is it touching the edge
+     */
+    private boolean isPointTouchingEdge(Point loc) {
+        return (!isValidPoint(new Point(loc.x - 1, loc.y - 1))) || (!isValidPoint(new Point(loc.x + 1, loc.y + 1)));
     }
 
     /**
@@ -254,6 +273,7 @@ public class World {
         boolean hasHitEdge = false;
 
         // Check for an edge hit
+        hasHitEdge = isPointTouchingEdge(start);
 
         // Plot the splash
         grid[start.y][start.x] = SquareType.kUnknown;

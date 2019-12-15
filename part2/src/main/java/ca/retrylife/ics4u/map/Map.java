@@ -20,7 +20,6 @@ public class Map extends Assignment {
     World world;
 
     /* Mouse handling */
-    // Point mousePos =
     MouseHandler mouse = new MouseHandler();
 
     public static void main(String[] args) {
