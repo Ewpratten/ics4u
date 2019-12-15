@@ -417,7 +417,7 @@ public class World {
      * 
      * @param arr Int data
      */
-    private void setFromIntArray(int[][] arr) {
+    public void setFromIntArray(int[][] arr) {
         // Do assertions
         assertEquals(grid.length, arr.length);
         assertEquals(grid[0].length, arr[0].length);
@@ -445,6 +445,7 @@ public class World {
                     break;
                 case 4:
                     type = SquareType.kMask;
+                    break;
                 default:
                     type = SquareType.kEmpty;
 
@@ -455,5 +456,53 @@ public class World {
 
             }
         }
+    }
+
+    /**
+     * Get a representation of the world as an int array
+     * 
+     * @return World map
+     */
+    public int[][] getAsIntArray() {
+        // Create output buffer
+        int[][] output = new int[grid.length][grid[0].length];
+
+        // Copy array
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+
+                // Int type representation to store
+                int type;
+
+                // Determine type
+                switch (grid[i][j]) {
+                case kEmpty:
+                    type = 0;
+                    break;
+                case kLand:
+                    type = 1;
+                    break;
+                case kLake:
+                    type = 2;
+                    break;
+                case kOcean:
+                    type = 3;
+                    break;
+                case kMask:
+                    type = 4;
+                    break;
+                default:
+                    type = 0;
+
+                }
+
+                // Set type
+                output[i][j] = type;
+
+            }
+        }
+
+        // Return the output
+        return output;
     }
 }
