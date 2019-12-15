@@ -42,7 +42,6 @@ public class Map extends Assignment {
         world = new World(Constants.WINSIZE, Constants.GRIDSIZE);
 
         // Set mouse listening
-        // window.addMouseListener(mouse);
         world.getCanvas().enableInputMethods(true);
         world.getCanvas().addMouseListener(mouse);
 
@@ -77,6 +76,10 @@ public class Map extends Assignment {
         // Left click
         case MouseEvent.BUTTON1:
             world.handleSplash(world.pixelToSquare(pos));
+            break;
+
+        case MouseEvent.BUTTON3:
+            world.handleCreativeInput(world.pixelToSquare(pos));
             break;
         }
     }

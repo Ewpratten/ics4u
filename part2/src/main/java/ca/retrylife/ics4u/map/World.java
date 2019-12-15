@@ -205,8 +205,10 @@ public class World {
         // Determine if the splash is for land, or water
         SquareType type = grid[square.y][square.x];
 
-        // If the splash is on part of the map that has already been touched, do nothing
-        if (type != SquareType.kEmpty) {
+        // If the splash is on land, do nothing
+        // We only check against land, so that re-clicking pre-existing water will
+        // "update" it in the case of some terrain change
+        if (type == SquareType.kLand) {
 
             // Must do something here to make my linter happy
             System.out.print("");
@@ -269,10 +271,34 @@ public class World {
             return false;
         }
 
+        // Return if the grid is empty
         return grid[loc.y][loc.x] == SquareType.kEmpty;
 
     }
 
+    /**
+     * Check if a grid square can be splashed (or updated by a splash)
+     * 
+     * @param loc Square
+     * @return Can be splashed?
+     */
+    private boolean isSplashible(Point loc) {
+
+        // Cannot splash it if it does not exist
+        if (!isValidPoint(loc)) {
+            return false;
+        }
+
+        return grid[loc.y][loc.x] != SquareType.kLand && grid[loc.y][loc.x] != SquareType.kMask;
+    }
+
+    /**
+     * Recursively splash an empty area with a mask. This mask can later be used to
+     * determine they type of splash (lake, ocean, ...)
+     * 
+     * @param start Splash start point
+     * @return Has the splash hit the edge of the window?
+     */
     private boolean splash(Point start) {
 
         // Define the next point to check
@@ -290,7 +316,7 @@ public class World {
         /* Handle each corner (ensure the corner is "splashable") */
 
         // Handle left corner
-        if (isEmpty((next = new Point(start.x - 1, start.y)))) {
+        if (isSplashible((next = new Point(start.x - 1, start.y)))) {
 
             // Set edge hit tracker if the recursive step hit the edge
             if (splash(next)) {
@@ -300,7 +326,7 @@ public class World {
         }
 
         // Handle right corner
-        if (isEmpty((next = new Point(start.x + 1, start.y)))) {
+        if (isSplashible((next = new Point(start.x + 1, start.y)))) {
 
             // Set edge hit tracker if the recursive step hit the edge
             if (splash(next)) {
@@ -310,7 +336,7 @@ public class World {
         }
 
         // Handle up
-        if (isEmpty((next = new Point(start.x, start.y - 1)))) {
+        if (isSplashible((next = new Point(start.x, start.y - 1)))) {
 
             // Set edge hit tracker if the recursive step hit the edge
             if (splash(next)) {
@@ -320,7 +346,7 @@ public class World {
         }
 
         // Handle down
-        if (isEmpty((next = new Point(start.x, start.y + 1)))) {
+        if (isSplashible((next = new Point(start.x, start.y + 1)))) {
 
             // Set edge hit tracker if the recursive step hit the edge
             if (splash(next)) {
@@ -331,6 +357,33 @@ public class World {
 
         // Return if edge has been hit
         return hasHitEdge;
+    }
+
+    /**
+     * Handles "creative input".
+     * 
+     * Creative input counts as actions to add and remove land from the map.
+     * 
+     * @param square Which square to "create" at
+     */
+    public void handleCreativeInput(Point square) {
+        // Ensure the square is valid
+        if (!isValidPoint(square)) {
+            return;
+        }
+
+        // Read square type
+        SquareType type = grid[square.y][square.x];
+
+        // If the square does not have land, place some
+        if (!isEmpty(square) && !isSplashible(square)) {
+            trySetSquareValue(square, SquareType.kEmpty);
+        } else {
+            // If the square has land, remove it
+            trySetSquareValue(square, SquareType.kLand);
+
+        }
+
     }
 
     /**
