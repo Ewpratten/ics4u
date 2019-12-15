@@ -97,10 +97,9 @@ public class NoiseMap {
      * @return Distance
      */
     private int getNearestDistanceTo(Point loc, int val) {
-        double distance = 1000;
 
-        // List of occurences of val
-        ArrayList<Point> vals = new ArrayList<>();
+        // Set a big number as the shortest
+        double distance = map.length * map[0].length;
 
         // Find all vals
         for (int i = 0; i < map.length; i++) {
@@ -109,21 +108,14 @@ public class NoiseMap {
                 // Check if current val is wanted
                 if (map[i][j] == val) {
 
-                    // Add point to list
-                    vals.add(new Point(i, j));
+                    // Find shortest distance from current to val
+                    double dist = loc.distance(new Point(i, j));
+
+                    // If it is the smallest, set it
+                    if (dist < distance) {
+                        distance = dist;
+                    }
                 }
-            }
-        }
-
-        // Find shortest distance
-        for (Point point : vals) {
-
-            // Find distance
-            double dist = loc.distance(point);
-
-            // If it is the smallest, set it
-            if (dist < distance) {
-                distance = dist;
             }
         }
 
