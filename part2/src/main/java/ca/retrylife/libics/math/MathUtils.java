@@ -22,7 +22,7 @@ public class MathUtils {
      * @return Is in range
      */
     public static boolean inRange(double val, double min, double max) {
-        return (val > min) && (val < max);
+        return (val >= min) && (val <= max);
     }
 
     /**

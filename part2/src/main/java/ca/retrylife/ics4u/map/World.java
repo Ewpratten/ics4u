@@ -22,7 +22,7 @@ public class World {
 
         /* All possible types */
         kEmpty(new Color(237, 245, 224)), kLand(new Color(92, 219, 148)), kLake(new Color(101, 158, 188)),
-        kOcean(new Color(5, 57, 107));
+        kOcean(new Color(5, 57, 107)), kUnknown(new Color(246, 76, 113));
 
         private Color clr;
 
@@ -194,7 +194,7 @@ public class World {
     public void handleSplash(Point square) {
 
         // Ensure square can be set
-        if (!(MathUtils.inRange(square.x, -1, grid[0].length - 1) || MathUtils.inRange(square.y, -1, grid.length - 1))) {
+        if (!isValidPoint(square)) {
 
             // If not, just return
             System.out.println("OOB");
@@ -206,13 +206,96 @@ public class World {
 
         // If the splash is on part of the map that has already been touched, do nothing
         if (type != SquareType.kEmpty) {
-
-            System.out.println("TYOE");
+            System.out.print("");
             return;
         }
 
-        trySetSquareValue(square, SquareType.kLake);
+        System.out.println(square);
 
+        // Create a fill mask, and determine if this splash is an ocean of not
+        boolean is_ocean = splash(square);
+
+        // trySetSquareValue(square, SquareType.kLake);
+
+    }
+
+    private boolean isValidPoint(Point loc) {
+        return (MathUtils.inRange(loc.x, 0, grid[0].length - 1) && MathUtils.inRange(loc.y, 0, grid.length - 1));
+    }
+
+    /**
+     * Check if a grid square is empty (invalid squares count as full)
+     * 
+     * @param loc Square
+     * @return Is empty?
+     */
+    private boolean isEmpty(Point loc) {
+
+        // It is full if it does not exist
+        if (!isValidPoint(loc)) {
+            return false;
+        }
+
+        return grid[loc.y][loc.x] == SquareType.kEmpty;
+
+    }
+
+    private boolean splash(Point start) {
+
+        // Define the next point to check
+        Point next;
+
+        // Store if the splash has hit the edge of the screen
+        boolean hasHitEdge = false;
+
+        // Check for an edge hit
+        
+
+        // Plot the splash
+        grid[start.y][start.x] = SquareType.kUnknown;
+
+        /* Handle each corner (ensure the corner is "splashable") */
+
+        // Handle left corner
+        if (isEmpty((next = new Point(start.x - 1, start.y)))) {
+
+            // Set edge hit tracker if the recursive step hit the edge
+            if (splash(next)) {
+                hasHitEdge = true;
+            }
+            ;
+        }
+
+        // Handle right corner
+        if (isEmpty((next = new Point(start.x + 1, start.y)))) {
+
+            // Set edge hit tracker if the recursive step hit the edge
+            if (splash(next)) {
+                hasHitEdge = true;
+            }
+            ;
+        }
+
+        // Handle up
+        if (isEmpty((next = new Point(start.x, start.y - 1)))) {
+
+            // Set edge hit tracker if the recursive step hit the edge
+            if (splash(next)) {
+                hasHitEdge = true;
+            }
+            ;
+        }
+
+        // Handle down
+        if (isEmpty((next = new Point(start.x, start.y + 1)))) {
+
+            // Set edge hit tracker if the recursive step hit the edge
+            if (splash(next)) {
+                hasHitEdge = true;
+            }
+            ;
+        }
+        return false;
     }
 
     /**
@@ -246,6 +329,8 @@ public class World {
                 case 3:
                     type = SquareType.kOcean;
                     break;
+                case 4:
+                    type = SquareType.kUnknown;
                 default:
                     type = SquareType.kEmpty;
 
