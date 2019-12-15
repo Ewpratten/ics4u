@@ -22,7 +22,7 @@ public class World {
 
         /* All possible types */
         kEmpty(new Color(237, 245, 224)), kLand(new Color(92, 219, 148)), kLake(new Color(101, 158, 188)),
-        kOcean(new Color(5, 57, 107)), kUnknown(new Color(246, 76, 113));
+        kOcean(new Color(5, 57, 107)), kMask(new Color(246, 76, 113));
 
         private Color clr;
 
@@ -202,8 +202,10 @@ public class World {
         // Ensure square can be set
         if (!isValidPoint(square)) {
 
+            // Must do something here to make my linter happy
+            System.out.print("");
+
             // If not, just return
-            System.out.println("OOB");
             return;
         }
 
@@ -212,16 +214,30 @@ public class World {
 
         // If the splash is on part of the map that has already been touched, do nothing
         if (type != SquareType.kEmpty) {
+
+            // Must do something here to make my linter happy
             System.out.print("");
+
+            // Return if un-splashible
             return;
         }
-
-        System.out.println(square);
 
         // Create a fill mask, and determine if this splash is an ocean of not
         boolean is_ocean = splash(square);
 
-        System.out.println(is_ocean);
+        // Check the board for fill masks, and set them based on is_ocean
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[i].length; j++) {
+
+                // Check if the current is a mask square
+                if (grid[i][j] == SquareType.kMask) {
+
+                    // Set square type based on is_ocean
+                    grid[i][j] = (is_ocean) ? SquareType.kOcean : SquareType.kLake;
+                }
+
+            }
+        }
 
     }
 
@@ -276,7 +292,7 @@ public class World {
         hasHitEdge = isPointTouchingEdge(start);
 
         // Plot the splash
-        grid[start.y][start.x] = SquareType.kUnknown;
+        grid[start.y][start.x] = SquareType.kMask;
 
         /* Handle each corner (ensure the corner is "splashable") */
 
@@ -356,7 +372,7 @@ public class World {
                     type = SquareType.kOcean;
                     break;
                 case 4:
-                    type = SquareType.kUnknown;
+                    type = SquareType.kMask;
                 default:
                     type = SquareType.kEmpty;
 
