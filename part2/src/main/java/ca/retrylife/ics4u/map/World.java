@@ -360,7 +360,27 @@ public class World {
     }
 
     /**
-     * Handles "creative input".
+     * Update the water at a location.
+     * 
+     * @param loc Location to update
+     */
+    private void updateWaterAt(Point loc) {
+
+        // Disallow updates for non-existent points
+        if (!isValidPoint(loc)) {
+            return;
+        }
+
+        // Only apply update if loc is already water
+        if (grid[loc.y][loc.x] == SquareType.kLake || grid[loc.y][loc.x] == SquareType.kOcean) {
+            handleSplash(loc);
+        }
+    }
+
+    /**
+     * Handles "creative input", and will automatically update nearby water to
+     * reflect state changes (cutting off water from an ocean will turn it into a
+     * lake)
      * 
      * Creative input counts as actions to add and remove land from the map.
      * 
@@ -383,6 +403,12 @@ public class World {
             trySetSquareValue(square, SquareType.kLand);
 
         }
+
+        // Look for nearby water and force-update it
+        updateWaterAt(new Point(square.x - 1, square.y));
+        updateWaterAt(new Point(square.x + 1, square.y));
+        updateWaterAt(new Point(square.x, square.y - 1));
+        updateWaterAt(new Point(square.x, square.y + 1));
 
     }
 
