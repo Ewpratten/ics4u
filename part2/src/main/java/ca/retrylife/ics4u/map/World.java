@@ -6,10 +6,14 @@ import java.awt.Point;
 
 import javax.annotation.Nonnull;
 
+import static org.junit.Assert.assertEquals;
+
 import java.awt.Color;
 
 import ca.retrylife.libics.graphics.Canvas2D;
 import ca.retrylife.libics.math.MathUtils;
+import ca.retrylife.libics.math.noise.BooleanNoiseMap;
+import ca.retrylife.libics.utils.PrintUtils;
 
 public class World {
 
@@ -35,13 +39,15 @@ public class World {
     private Canvas2D canvas;
 
     /* Grid */
+    @SuppressWarnings("unused")
     private Dimension gridSize, gridSquare, frameSize;
     private SquareType[][] grid;
 
     /* Colouring */
     private final Color lineColor = new Color(141, 228, 175);
-    // private final Color[] colours = { new Color(237, 245, 224), new Color(92,
-    // 219, 148) };
+
+    /* World */
+    BooleanNoiseMap terrainGenerator;
 
     @SuppressWarnings("unused")
     public World(Dimension frameSize, Dimension gridSize) {
@@ -65,15 +71,31 @@ public class World {
         this.gridSquare = new Dimension((int) (frameSize.width / gridSize.width),
                 (int) (frameSize.height / gridSize.height));
 
-        // Debug, set a square
-        trySetSquareValue(pixelToSquare(new Point(100, 100)), SquareType.kLand);
+        // Do terrain generation
+        terrainGenerator = new BooleanNoiseMap(gridSize.width, gridSize.height, 6);
+        terrainGenerator.compute(100);
+
+        int[][] generatedMap = terrainGenerator.getMap();
+        setFromIntArray(generatedMap);
+
+        PrintUtils.printArray(generatedMap);
 
     }
 
+    /**
+     * Get the drawing JPanel
+     * 
+     * @return Panel
+     */
     public Canvas2D getCanvas() {
         return canvas;
     }
 
+    /**
+     * Draw the frame
+     * 
+     * @param g Graphics obj
+     */
     private void draw(Graphics2D g) {
 
         /* Render all boxes */
@@ -123,6 +145,9 @@ public class World {
 
     }
 
+    /**
+     * Clear the grid
+     */
     public void clearGrid() {
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
@@ -131,10 +156,22 @@ public class World {
         }
     }
 
+    /**
+     * Convert a pixel position, to the coordinate of the square it is inside
+     * 
+     * @param pix Pixel position
+     * @return Square position
+     */
     public Point pixelToSquare(Point pix) {
-        return new Point((int) (pix.x / gridSize.width), (int) (pix.y / gridSize.height));
+        return new Point((int) (pix.x / gridSquare.width), (int) (pix.y / gridSquare.height));
     }
 
+    /**
+     * Try to set the value of a square, or do nothing if not possible
+     * 
+     * @param square Square to set
+     * @param type   Value
+     */
     public void trySetSquareValue(Point square, @Nonnull SquareType type) {
 
         // Ensure square can be set
@@ -147,5 +184,77 @@ public class World {
         // Set the grid square
         grid[square.y][square.x] = type;
 
+    }
+
+    /**
+     * Handle a "splash". Splashes are things like placing a lake
+     * 
+     * @param square Where the splash occured
+     */
+    public void handleSplash(Point square) {
+
+        // Ensure square can be set
+        if (!(MathUtils.inRange(square.x, -1, grid[0].length - 1) || MathUtils.inRange(square.y, -1, grid.length - 1))) {
+
+            // If not, just return
+            System.out.println("OOB");
+            return;
+        }
+
+        // Determine if the splash is for land, or water
+        SquareType type = grid[square.y][square.x];
+
+        // If the splash is on part of the map that has already been touched, do nothing
+        if (type != SquareType.kEmpty) {
+
+            System.out.println("TYOE");
+            return;
+        }
+
+        trySetSquareValue(square, SquareType.kLake);
+
+    }
+
+    /**
+     * Set the grid from an int array (Used for converting noise data to a map)
+     * 
+     * @param arr Int data
+     */
+    private void setFromIntArray(int[][] arr) {
+        // Do assertions
+        assertEquals(grid.length, arr.length);
+        assertEquals(grid[0].length, arr[0].length);
+
+        // Copy array
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr[i].length; j++) {
+
+                // SquareType to store
+                SquareType type;
+
+                // Determine type
+                switch (arr[i][j]) {
+                case 0:
+                    type = SquareType.kEmpty;
+                    break;
+                case 1:
+                    type = SquareType.kLand;
+                    break;
+                case 2:
+                    type = SquareType.kLake;
+                    break;
+                case 3:
+                    type = SquareType.kOcean;
+                    break;
+                default:
+                    type = SquareType.kEmpty;
+
+                }
+
+                // Set type
+                grid[i][j] = type;
+
+            }
+        }
     }
 }
