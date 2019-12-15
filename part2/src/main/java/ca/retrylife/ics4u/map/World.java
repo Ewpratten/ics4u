@@ -75,10 +75,9 @@ public class World {
         terrainGenerator = new BooleanNoiseMap(gridSize.width, gridSize.height, 6);
         terrainGenerator.compute(100);
 
+        // Generate and load the map
         int[][] generatedMap = terrainGenerator.getMap();
         setFromIntArray(generatedMap);
-
-        PrintUtils.printArray(generatedMap);
 
     }
 
@@ -163,12 +162,6 @@ public class World {
      * @return Square position
      */
     public Point pixelToSquare(Point pix) {
-        // Handle the default starting position for mouse input
-        if (pix.x == -1 && pix.y == -1) {
-            return pix;
-        }
-
-        // Handle all other inputs
         return new Point((int) (pix.x / gridSquare.width), (int) (pix.y / gridSquare.height));
     }
 

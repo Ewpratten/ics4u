@@ -4,6 +4,13 @@ public class BooleanNoiseMap extends NoiseMap {
 
     private int threshold;
 
+    /**
+     * Create a BooleanNoiseMap with a specific size, and threshold
+     * 
+     * @param width     Map width
+     * @param height    Map height
+     * @param threshold int -> boolean threshold
+     */
     public BooleanNoiseMap(int width, int height, int threshold) {
         super(width, height);
 

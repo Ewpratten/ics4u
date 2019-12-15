@@ -1,10 +1,16 @@
 package ca.retrylife.ics4u.map;
 
 import java.awt.Dimension;
+import java.awt.Point;
+
+import java.awt.event.MouseEvent;
 
 import ca.retrylife.libics.frameworks.Assignment;
 import ca.retrylife.libics.graphics.Window;
 
+/**
+ * Map continents assignment
+ */
 public class Map extends Assignment {
 
     /* Program constants */
@@ -20,7 +26,7 @@ public class Map extends Assignment {
     World world;
 
     /* Mouse handling */
-    MouseHandler mouse = new MouseHandler();
+    MouseClickHandler mouse = new MouseClickHandler(this::handleInput);
 
     public static void main(String[] args) {
         (new Map()).run();
@@ -55,12 +61,23 @@ public class Map extends Assignment {
         // Run the window
         window.start();
 
-        // Interaction loop
-        while (true) {
+    }
 
-            // Set the mouse position
-            world.handleSplash(world.pixelToSquare(mouse.getMousePos()));
+    /**
+     * Method for handling mouse input
+     * 
+     * @param pos        Mouse position
+     * @param buttonType Button click type
+     */
+    private void handleInput(Point pos, int buttonType) {
+
+        // Handle each type of button press
+        switch (buttonType) {
+
+        // Left click
+        case MouseEvent.BUTTON1:
+            world.handleSplash(world.pixelToSquare(pos));
+            break;
         }
-
     }
 }
