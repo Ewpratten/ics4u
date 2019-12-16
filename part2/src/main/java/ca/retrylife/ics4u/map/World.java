@@ -13,8 +13,12 @@ import java.awt.Color;
 import ca.retrylife.libics.graphics.Canvas2D;
 import ca.retrylife.libics.math.MathUtils;
 import ca.retrylife.libics.math.noise.BooleanNoiseMap;
-import ca.retrylife.libics.utils.PrintUtils;
 
+//TODO: Move all private methods below public ones
+
+/**
+ * Class containing the entire world
+ */
 public class World {
 
     /* Square types */
@@ -71,14 +75,23 @@ public class World {
         this.gridSquare = new Dimension((int) (frameSize.width / gridSize.width),
                 (int) (frameSize.height / gridSize.height));
 
-        // Do terrain generation
+        // Build a terrain generator
         terrainGenerator = new BooleanNoiseMap(gridSize.width, gridSize.height, 6);
+
+        // Generate a new map
+        generateNewMap();
+
+    }
+
+    public void generateNewMap() {
+
+        // Compute new NoiseMap
+        terrainGenerator.clearMap();
         terrainGenerator.compute(100);
 
         // Generate and load the map
         int[][] generatedMap = terrainGenerator.getMap();
         setFromIntArray(generatedMap);
-
     }
 
     /**

@@ -5,6 +5,9 @@ import java.awt.Point;
 
 import java.awt.event.MouseEvent;
 
+import javax.swing.JButton;
+import javax.swing.KeyStroke;
+
 import ca.retrylife.libics.frameworks.Assignment;
 import ca.retrylife.libics.graphics.Window;
 
@@ -24,9 +27,13 @@ public class Map extends Assignment {
 
     /* World */
     World world;
+    WorldLoader loader;
 
     /* Mouse handling */
     MouseClickHandler mouse = new MouseClickHandler(this::handleInput);
+
+    /* Keyboard handling */
+    KeypressHandler kbd = new KeypressHandler(this::saveMap, this::loadMap, this::resetMap);
 
     public static void main(String[] args) {
         (new Map()).run();
@@ -40,13 +47,18 @@ public class Map extends Assignment {
 
         // Create the world
         world = new World(Constants.WINSIZE, Constants.GRIDSIZE);
+        loader = new WorldLoader(world);
 
         // Set mouse listening
         world.getCanvas().enableInputMethods(true);
         world.getCanvas().addMouseListener(mouse);
 
+        // Add components
         window.add(world.getCanvas());
-        window.pack();
+
+        // Register keybindings
+        window.addKeyListener(kbd);
+
     }
 
     @Override
@@ -82,5 +94,28 @@ public class Map extends Assignment {
             world.handleCreativeInput(world.pixelToSquare(pos));
             break;
         }
+    }
+
+    private void saveMap() {
+        System.out.println("Saving map");
+
+        // Save the map
+        loader.save();
+    }
+
+    private void loadMap() {
+        System.out.println("Loading map");
+
+        // Load the map
+        loader.load();
+
+    }
+
+    private void resetMap() {
+        System.out.println("Resetting map");
+
+        // Generate a new map
+        world.generateNewMap();
+
     }
 }

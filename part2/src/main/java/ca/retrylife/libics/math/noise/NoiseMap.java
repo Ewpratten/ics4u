@@ -13,6 +13,7 @@ public class NoiseMap {
 
     // Map
     int[][] map;
+    int width, height;
 
     /**
      * Create a NoiseMap of a specific size
@@ -22,8 +23,12 @@ public class NoiseMap {
      */
     public NoiseMap(int width, int height) {
 
+        // Set locals
+        this.width = width;
+        this.height = height;
+
         // Create map
-        map = new int[height][width];
+        clearMap();
 
         // Create RNG
         rand = new Random();
@@ -127,6 +132,13 @@ public class NoiseMap {
      */
     public int[][] getMap() {
         return map;
+    }
+
+    /**
+     * Clear the internal map
+     */
+    public void clearMap() {
+        map = new int[height][width];
     }
 
 }
