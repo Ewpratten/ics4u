@@ -2,6 +2,8 @@
 ICS4U<br>
 By: Evan Pratten
 
+Main class: `Map.java`
+
 ## Program usage
 
 ### World interaction
