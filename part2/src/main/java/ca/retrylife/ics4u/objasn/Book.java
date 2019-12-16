@@ -5,7 +5,7 @@ Due Monday 15 Dec. 2019
 - 5% per day late. 
 
 NAME: Evan Pratten
-Date handed in: ___________
+Date handed in: DEC 16 2019
 */
 
 /* TODO: Read and answer the questions at the bottom of this class file.

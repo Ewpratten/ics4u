@@ -62,9 +62,8 @@ public class WorldLoader {
 
             }
 
-            // Add "N" to specify newline
-            // instructions.append("N");
         }
+
 
         // Encode and write to file
         processor.encode(buffer, buffer, world.getCanvas().getWidth(), world.getCanvas().getHeight(),
