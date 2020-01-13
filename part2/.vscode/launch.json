@@ -2,6 +2,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - RayTracer",
+            "request": "launch",
+            "mainClass": "ca.retrylife.ics4u.reytraceexample.RayTracer",
+            "projectName": "ics4u"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - ScrnGlow",
+            "request": "launch",
+            "mainClass": "ca.retrylife.ics4u.scrnglow.ScrnGlow",
+            "projectName": "ics4u"
+        },
+        {
+            "type": "java",
             "name": "CodeLens (Launch) - Map",
             "request": "launch",
             "mainClass": "ca.retrylife.ics4u.map.Map",

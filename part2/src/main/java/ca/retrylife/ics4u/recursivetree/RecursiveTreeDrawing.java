@@ -41,13 +41,19 @@ public class RecursiveTreeDrawing {
 
         JPanel c = new JPanel(new GridLayout(0, 1));
 
-        c.add(createControl("left length", 0, 0.9, d -> p.setLeftLengthFactor(d)));
-        c.add(createControl("left width", 0, 0.9, d -> p.setLeftWidthFactor(d)));
-        c.add(createControl("left angle", 0, Math.PI, d -> p.setLeftAngleDelta(d)));
+        c.add(createControl("left length", 0, 0.9, RecursiveTreeDrawingPanel.leftLengthFactor,
+                d -> p.setLeftLengthFactor(d)));
+        c.add(createControl("left width", 0, 0.9, RecursiveTreeDrawingPanel.leftWidthFactor,
+                d -> p.setLeftWidthFactor(d)));
+        c.add(createControl("left angle", 0, Math.PI, RecursiveTreeDrawingPanel.leftAngleDelta,
+                d -> p.setLeftAngleDelta(d)));
 
-        c.add(createControl("right length", 0, 0.9, d -> p.setRightLengthFactor(d)));
-        c.add(createControl("right width", 0, 0.9, d -> p.setRightWidthFactor(d)));
-        c.add(createControl("right angle", -Math.PI, 0, d -> p.setRightAngleDelta(d)));
+        c.add(createControl("right length", 0, 0.9, RecursiveTreeDrawingPanel.rightLengthFactor,
+                d -> p.setRightLengthFactor(d)));
+        c.add(createControl("right width", 0, 0.9, RecursiveTreeDrawingPanel.rightWidthFactor,
+                d -> p.setRightWidthFactor(d)));
+        c.add(createControl("right angle", -Math.PI, 0, RecursiveTreeDrawingPanel.rightAngleDelta,
+                d -> p.setRightAngleDelta(d)));
         f.getContentPane().add(c, BorderLayout.SOUTH);
 
         f.pack();
@@ -55,10 +61,12 @@ public class RecursiveTreeDrawing {
         f.setVisible(true);
     }
 
-    private static JPanel createControl(String name, double min, double max, DoubleConsumer doubleConsumer) {
+    private static JPanel createControl(String name, double min, double max, double dflt,
+            DoubleConsumer doubleConsumer) {
         JPanel p = new JPanel(new GridLayout(1, 0));
         p.add(new JLabel(name));
-        JSlider slider = new JSlider(0, 100, 0);
+        JSlider slider = new JSlider(0, 100, (int) Math.abs(dflt * 100));
+
         slider.addChangeListener(new ChangeListener() {
 
             @Override
@@ -77,12 +85,12 @@ public class RecursiveTreeDrawing {
 }
 
 class RecursiveTreeDrawingPanel extends JPanel {
-    private double leftLengthFactor = 3.0 / 4.0;
-    private double leftWidthFactor = 3.0 / 4.0;
-    private double leftAngleDelta = Math.PI / 5.0;
-    private double rightLengthFactor = 2.0 / 3.0;
-    private double rightWidthFactor = 1.0 / 2.0;
-    private double rightAngleDelta = -Math.PI / 5.0;
+    public static double leftLengthFactor = 3.0 / 4.0;
+    public static double leftWidthFactor = 3.0 / 4.0;
+    public static double leftAngleDelta = Math.PI / 5.0;
+    public static double rightLengthFactor = 2.0 / 3.0;
+    public static double rightWidthFactor = 1.0 / 2.0;
+    public static double rightAngleDelta = -Math.PI / 5.0;
 
     @Override
     protected void paintComponent(Graphics gr) {
